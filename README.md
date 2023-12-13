@@ -1,1 +1,1 @@
-# vite-template
+# streamlit-navigation-bar
