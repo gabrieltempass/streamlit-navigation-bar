@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <WithStreamlitConnection v-slot="{ args }">
-      <MyComponent :args="args" />
+      <StNavbar :args="args" />
     </WithStreamlitConnection>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import MyComponent from "./MyComponent.vue"
+import StNavbar from "./StNavbar.vue"
 
 // "withStreamlitConnection" is a scoped slot. It bootstraps the
 // connection between your component and the Streamlit app, and handles
@@ -21,7 +21,7 @@ import WithStreamlitConnection from "./streamlit/WithStreamlitConnection.vue"
 export default defineComponent({
   name: "App",
   components: {
-    MyComponent,
+    StNavbar,
     WithStreamlitConnection,
   },
 })

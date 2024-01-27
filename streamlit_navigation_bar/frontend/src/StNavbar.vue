@@ -11,7 +11,7 @@ import { Streamlit } from "streamlit-component-lib"
 import { useStreamlit } from "./streamlit"
 
 export default {
-  name: "MyComponent",
+  name: "StNavbar",
   props: ["args"], // Arguments that are passed to the plugin in Python are accessible in prop "args"
   setup() {
     useStreamlit() // lifecycle hooks for automatic Streamlit resize

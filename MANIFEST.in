@@ -1,1 +1,1 @@
-recursive-include my_component/frontend/dist *
+recursive-include streamlit_navigation_bar/frontend/dist *
