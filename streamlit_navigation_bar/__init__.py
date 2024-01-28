@@ -19,7 +19,13 @@ else:
     )
 
 
-def st_navbar(name, key=None):
-    component_value = _st_navbar(name=name, key=key, default=0)
-    return component_value
+def st_navbar(pages, default="Home", logo_svg=None, logo_page="Home", key=None):
+    page = _st_navbar(
+        pages=pages,
+        logo_svg=logo_svg,
+        logo_page=logo_page,
+        key=key,
+        default=default
+    )
+    return page
 
