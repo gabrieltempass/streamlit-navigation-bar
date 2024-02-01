@@ -29,7 +29,7 @@ export default defineComponent({
 
 <style>
 body {
-  margin: 0px;
+  margin: 0;
 }
 #app {
   color: var(--text-color);

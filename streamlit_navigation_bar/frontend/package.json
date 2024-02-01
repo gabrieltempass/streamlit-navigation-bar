@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "streamlit-component-lib": "^2.0.0",
-    "vite-svg-loader": "^5.1.0",
     "vue": "^3.3.11"
   },
   "devDependencies": {

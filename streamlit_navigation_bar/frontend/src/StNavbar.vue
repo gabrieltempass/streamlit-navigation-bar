@@ -1,17 +1,47 @@
 <template>
-  <nav>
-    <ul>
-      <li v-if="args.logo_svg">
-        <a href="#" @click="onClicked(args.logo_page)">
-          <span>
-            <Logo class="logo"/>
-          </span>
-        </a>
-      </li>
-      <li v-for="page in args.pages" :key="page">
-        <a href="#" @click="onClicked(page)" :class="{active: page === activePage}">{{ page }}</a>
-      </li>
-    </ul>
+  <nav :style="parseStyles(styles['nav'])">
+    <div :style="parseStyles(styles['div'])">
+      <ul :style="parseStyles(styles['ul'])">
+        <li
+          v-if="args.base64_svg"
+          :style="parseStyles(styles['li'])"
+        >
+          <a
+            v-if="args.logo_page"
+            href="#"
+            @click="onClicked(args.logo_page)"
+            :style="parseStyles(styles['a'])"
+          >
+            <img
+              :src="`data:image/svg+xml; base64, ${base64Svg}`"
+              :style="parseStyles(styles['img'])"
+            />
+          </a>
+          <a
+            v-else-if="args.logo_page === null"
+            :style="parseStyles(styles['a'])"
+          >
+            <img
+              :src="`data:image/svg+xml; base64, ${base64Svg}`"
+              :style="parseStyles(styles['img'])"
+            />
+          </a>
+        </li>
+        <li
+          v-for="page in args.pages" :key="page"
+          :style="parseStyles(styles['li'])"
+        >
+          <a
+            class="pages"
+            href="#"
+            @click="onClicked(page)"
+            :data-text="page"
+            :class="{selected: page === selectedPage}"
+            :style="parseStyles(styles['a']) + parseStyles(styles['selected'], page === selectedPage)"
+          >{{ page }}</a>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
@@ -19,26 +49,43 @@
 import { ref } from "vue"
 import { Streamlit } from "streamlit-component-lib"
 import { useStreamlit } from "./streamlit"
-import Logo from "./logo.svg"
 
 export default {
   name: "StNavbar",
-  components: {
-    Logo
-  },
-  props: ["args"], // Arguments that are passed to the plugin in Python are accessible in prop "args"
+  // Arguments that are passed to the plugin in Python are accessible in
+  // prop "args"
+  props: ["args"],
+
   setup(props) {
     useStreamlit() // Lifecycle hooks for automatic Streamlit resize
 
-    const activePage = ref(props.args.default)
+    const base64Svg = ref(props.args.base64_svg)
+    const selectedPage = ref(props.args.default)
     const onClicked = (page) => {
-      activePage.value = page
+      selectedPage.value = page
       Streamlit.setComponentValue(page)
+    }
+    const styles = ref(props.args.styles || {})
+    const parseStyles = (dictionary, condition) => {
+      if (typeof condition === "undefined") {
+        condition = true
+      }
+      if (!condition) {
+        return ""
+      }
+      let styleString = ""
+      for (const key in dictionary) {
+        styleString += `${key}:${dictionary[key]};`
+      }
+      return styleString
     }
 
     return {
+      base64Svg,
+      selectedPage,
       onClicked,
-      activePage
+      parseStyles,
+      styles
     }
   },
 }
@@ -46,16 +93,21 @@ export default {
 
 <style scoped>
 * {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 nav {
   display: flex;
-  background-color: #4285f4;
-  height: 45px;
-  padding: 0px 30px;
+  justify-content: center;
   align-items: center;
+  background-color: var(--primary-color);
+  height: 2.8125rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+div {
+  width: 100%;
+  max-width: 700px;
 }
 ul {
   display: flex;
@@ -63,25 +115,31 @@ ul {
   width: 100%;
 }
 li {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   list-style: none;
 }
 a {
-/*  color: #e3e3e3;*/
   color: white;
+  text-align: center;
   text-decoration: none;
 }
-.logo {
+img {
   display: flex;
-  height: 30px;
-  width: 30px;
+  height: 1.875rem;
 }
-.active {
+.selected {
   color: white;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 1.5px;
-/*  font-weight: bold;*/
+  font-weight: bold;
+}
+a::before {
+  content: attr(data-text);
+  display: flex;
+  font-weight: bold;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
 }
 </style>
