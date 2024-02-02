@@ -73,27 +73,28 @@ def st_navbar(
         limited to them.
     logo_path : str, optional
         The path to an SVG file for a logo. It will be shown on the left side
-        of the navigation bar. Defaults to None, where no logo is displayed.
+        of the navigation bar. Defaults to `None`, where no logo is displayed.
     logo_page : str, default="Home"
         Set the page value that will be returned by clicking on the logo (if
-        there is one). For a non-clickable logo, set this to None.
+        there is one). For a non-clickable logo, set this to `None`.
     styles : dict of str: dict of str: str, optional
-        A dictionary with the HTML tag name as the key and another dictionary
-        to style it as the value. In the second dictionary, the key is a CSS
-        property and the value is the value it will receive. The available
-        HTML tags, and their respective structure order, are: "nav", "div",
-        "ul", "li", "a", "img" and "selected". The last one is a custom tag to
-        direct the styling just to the "a" element selected.
+        A dictionary with the HTML tag name as the key and another dictionary 
+        to style it as the value. In the second dictionary, the key is a CSS 
+        property and the value is the value it will receive. The available HTML 
+        tags are: `"nav"`, `"div"`, `"ul"`, `"li"`, `"a"`, `"img"`, `"span"` 
+        and `"selected"`. The last one is a custom tag to direct the styling 
+        just to the `"span"` element selected. To better understand the 
+        structure hierarchy, check the notes section.
     adjust_html : bool, default=True
         By default, Streamlit limits the position of components in the web app
         to a certain width and adds a padding to the top. When this argument
-        is set to True it adjusts the HTML for the navbar to be displayed at
+        is set to `True` it adjusts the HTML for the navbar to be displayed at
         the full width and at the top of the screen, among other things (like
         hiding some Streamlit UI elements). In most cases, the HTML
         adjustment will not interfere with the rest of the web app, however
         there could be some situations where this occurs. If this happens,
-        toggle `adjust_html` to False and make your own HTML adjustments with
-        st.markdown.
+        toggle `adjust_html` to `False` and make your own HTML adjustments with
+        `st.markdown`.
     key : str or int, optional
         A string or integer to use as a unique key for the component. If this
         is omitted, a key will be generated for the widget based on its
@@ -101,15 +102,76 @@ def st_navbar(
 
     Returns
     -------
-    page : str
+    page : str or None
         The selected page from the navigation bar. If there is no user
         interaction yet, returns the selected default value, else, returns the
         page clicked by the user.
 
+    Notes
+    -----
+    The component uses by default two CSS variables from the web app's theme,
+    to style the <nav> tag. They are:
+
+    nav {
+      font-family: var(--font);
+      background-color: var(--primary-color);
+    }
+
+    It also accepts the theme variables to be passed in the style dictionary,
+    as the values for the CSS properties, for example:
+
+    styles = {
+        "span": {"text-color": "--text-color"}
+    }
+
+    The theme variables that could be used are:
+
+    --primary-color
+    --background-color
+    --secondary-background-color
+    --text-color
+    --font
+
+    To style the navigation bar, it is important to understand its HTML
+    structure hierarchy. Let us take a scenario where the navbar was created
+    with pages=["Page one name", "Page two name"] and an SVG logo. On the
+    frontend side, the component will build this structure (simplified for the
+    explanation):
+
+    <nav>
+      <div>
+        <ul>
+          <li>
+            <a>
+              <img src="svg_logo" img/>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>
+                Page one name
+              </span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>
+                Page two name
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    Looking at the hierarchy it is possible to notice that the <a> tag will
+    style both the logo and the strings. However, the <img> tag is unique to
+    the logo, just as <span> is to the strings.
+
     Examples
     --------
     >>> from streamlit_navigation_bar import st_navbar
-    >>> pages = ["Home", "Documentation", "Blog", "About", "User"]
+    >>> pages = ["Documentation", "Examples", "Community", "About"]
     >>> styles = {"nav": {"background-color": "black"}}
     >>> st_navbar(pages, selected="Home", styles=styles)
     """
