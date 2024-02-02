@@ -89,7 +89,7 @@ def st_navbar(
         to a certain width and adds a padding to the top. When this argument
         is set to True it adjusts the HTML for the navbar to be displayed at
         the full width and at the top of the screen, among other things (like
-        hidding some Streamlit UI elements). In most cases, the HTML
+        hiding some Streamlit UI elements). In most cases, the HTML
         adjustment will not interfere with the rest of the web app, however
         there could be some situations where this occurs. If this happens,
         toggle `adjust_html` to False and make your own HTML adjustments with
@@ -114,6 +114,7 @@ def st_navbar(
     >>> st_navbar(pages, selected="Home", styles=styles)
     """
 
+    base64_svg = None
     if logo_path is not None:
         base64_svg = _encode_svg(open(logo_path).read())
 
