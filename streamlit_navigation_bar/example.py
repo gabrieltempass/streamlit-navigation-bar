@@ -10,11 +10,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-pages = ["Documentation", "Blog", "About", "User"]
+pages = ["Documentation", "Examples", "Community", "About"]
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(parent_dir, "logo.svg")
 styles = {
-	"nav": {"background-color": "#018154"}
+	"nav": {"background-color": "black"}
 }
 
 page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
