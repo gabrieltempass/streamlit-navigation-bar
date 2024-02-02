@@ -1,3 +1,4 @@
+import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
 pages = ["Home", "Library", "Tutorials", "Development", "Download"]
@@ -26,4 +27,5 @@ styles = {
 	}
 }
 
-st_navbar(pages, styles=styles)
+page = st_navbar(pages, styles=styles)
+st.header(page)

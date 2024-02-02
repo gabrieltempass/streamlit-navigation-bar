@@ -139,10 +139,11 @@ from streamlit_navigation_bar import st_navbar
 
 st_navbar(["Home", "Documentation", "Examples", "Community", "About"])
 ```
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](URL_TO_YOUR_APP)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-1.streamlit.app/)
 
 An example styling the navbar with a design similar to Streamlit's widgets:
 ```python
+import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
 pages = ["Home", "Library", "Tutorials", "Development", "Download"]
@@ -171,9 +172,10 @@ styles = {
 	}
 }
 
-st_navbar(pages, styles=styles)
+page = st_navbar(pages, styles=styles)
+st.header(page)
 ```
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](URL_TO_YOUR_APP)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-2.streamlit.app/)
 
 An example using a logo, multiple pages with content, among other things:
 ```python
@@ -236,7 +238,7 @@ html = {
 
 st.markdown(html["hide_sidebar_button"], unsafe_allow_html=True)
 ```
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](URL_TO_YOUR_APP)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-3.streamlit.app/)
 
 ## Requirements
 
@@ -248,7 +250,7 @@ that it will cause the `adjust_html` to not work properly when set to `True`)
 ## Roadmap
 
 The current version of the Streamlit Navigation Bar still has some limitations,
-that are planned to be addressed in future updates, those are:
+that are planned to be addressed in future updates. Those are:
 * Be responsive on smaller screens.
 * Adjust layout to Streamlit's sidebar.
 * Open URLs.
