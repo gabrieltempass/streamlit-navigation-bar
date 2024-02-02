@@ -28,17 +28,24 @@
           </a>
         </li>
         <li
-          v-for="page in args.pages" :key="page"
+          v-for="page in args.pages"
+          :key="page"
           :style="parseStyles(styles['li'])"
         >
           <a
             class="pages"
             href="#"
             @click="onClicked(page)"
-            :data-text="page"
-            :class="{selected: page === selectedPage}"
-            :style="parseStyles(styles['a']) + parseStyles(styles['selected'], page === selectedPage)"
-          >{{ page }}</a>
+            :style="parseStyles(styles['a'])"
+          >
+            <span
+              :data-text="page"
+              :class="{selected: page === selectedPage}"
+              :style="parseStyles(styles['span']) + parseStyles(styles['selected'], page === selectedPage)"
+            >
+              {{ page }}
+            </span>
+          </a>
         </li>
       </ul>
     </div>
@@ -115,24 +122,27 @@ ul {
   width: 100%;
 }
 li {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   list-style: none;
 }
 a {
-  color: white;
-  text-align: center;
   text-decoration: none;
 }
 img {
   display: flex;
   height: 1.875rem;
 }
+span {
+  display: block;
+  color: white;
+  text-align: center;
+}
 .selected {
   color: white;
   font-weight: bold;
 }
-a::before {
+span::before {
   content: attr(data-text);
   display: flex;
   font-weight: bold;
