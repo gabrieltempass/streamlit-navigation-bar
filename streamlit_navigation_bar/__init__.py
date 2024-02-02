@@ -57,10 +57,10 @@ def st_navbar(
     """
     Place a navigation bar in your Streamlit app.
     
-    If there is no st.set_page_config command on the app page, st_navbar must
-    be the first Streamlit command used, and must only be set once per page.
-    If there is a st.set_page_config command, then st_navbar must be the
-    second one, right after it.
+    If there is no `st.set_page_config` command on the app page, `st_navbar`
+    must be the first Streamlit command used, and must only be set once per
+    page. If there is a `st.set_page_config` command, then `st_navbar` must be
+    the second one, right after it.
 
     Parameters
     ----------
