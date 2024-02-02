@@ -108,6 +108,7 @@ nav {
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
+  font-family: var(--font);
   height: 2.8125rem;
   padding-left: 2rem;
   padding-right: 2rem;

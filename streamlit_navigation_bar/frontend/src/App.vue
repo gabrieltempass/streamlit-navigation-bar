@@ -32,8 +32,6 @@ body {
   margin: 0;
 }
 #app {
-  color: var(--text-color);
-  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
