@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
-import examples.st_navbar_3.pages as pg
+import pages as pg
 
 
 st.set_page_config(
