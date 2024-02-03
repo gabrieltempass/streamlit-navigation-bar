@@ -109,6 +109,9 @@ def st_navbar(
 
     Notes
     -----
+
+    Theme variables
+
     The component uses by default two CSS variables from the web app's theme,
     to style the <nav> tag. They are:
 
@@ -168,12 +171,22 @@ def st_navbar(
     style both the logo and the strings. However, the <img> tag is unique to
     the logo, just as <span> is to the strings.
 
+    A fundamental CSS property to adjust is the `max-width` for the `<div>` 
+    tag. That is because it controls how much space the page names will have. 
+    The default value is `700px`, which works well in most cases. But if the 
+    navbar has a large number of pages, or longer names, it might be necessary 
+    to increase the maximum width. Conversely, whenever the navbar has few 
+    pages and short names, this value may need to be reduced to avoid very
+    large spaces between them.
+
     Examples
     --------
+    >>> import streamlit as st
     >>> from streamlit_navigation_bar import st_navbar
     >>> pages = ["Documentation", "Examples", "Community", "About"]
     >>> styles = {"nav": {"background-color": "black"}}
-    >>> st_navbar(pages, selected="Home", styles=styles)
+    >>> page = st_navbar(pages, selected="Home", styles=styles)
+    >>> st.write(page)
     """
 
     base64_svg = None

@@ -3,6 +3,8 @@
 A Streamlit component that allows you to place a navigation bar in your
 Streamlit app.
 
+![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/overview.gif)
+
 ## Installation
 
 ``` bash
@@ -64,6 +66,7 @@ returns the selected default value, else, returns the page clicked by the user.
 
 ## Notes
 
+### Theme variables
 The component uses by default two CSS variables from the
 [web app's theme](https://docs.streamlit.io/library/advanced-features/theming),
 to style the `<nav>` tag. They are:
@@ -93,6 +96,8 @@ The theme variables that could be used are:
 --text-color
 --font
 ```
+
+### Structure hierarchy
 
 To style the navigation bar, it is important to understand its HTML structure
 hierarchy. Let us take a scenario where the navbar was created with
@@ -131,14 +136,26 @@ Looking at the hierarchy it is possible to notice that the `<a>` tag will style
 both the logo and the strings. However, the `<img>` tag is unique to the logo,
 just as `<span>` is to the strings.
 
+### Max-width
+
+A fundamental CSS property to adjust is the `max-width` for the `<div>` tag.
+That is because it controls how much space the page names will have. The
+default value is `700px`, which works well in most cases. But if the navbar has
+a large number of pages, or longer names, it might be necessary to increase the
+maximum width. Conversely, whenever the navbar has few pages and short names,
+this value may need to be reduced to avoid very large spaces between them.
+
 ## Examples
 
 A basic example:
 ```python
+import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
-st_navbar(["Home", "Documentation", "Examples", "Community", "About"])
+page = st_navbar(["Home", "Documentation", "Examples", "Community", "About"])
+st.write(page)
 ```
+[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_1.gif)](https://st-navbar-1.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-1.streamlit.app/)
 
 An example styling the navbar with a design similar to Streamlit's widgets:
@@ -169,12 +186,13 @@ styles = {
 		"border-width": "1px",
 		"border-color": "#4285f4",
 		"border-radius": "8px",
-	}
+	},
 }
 
 page = st_navbar(pages, styles=styles)
-st.header(page)
+st.write(page)
 ```
+[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_2.gif)](https://st-navbar-2.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-2.streamlit.app/)
 
 An example using a logo, multiple pages with content, among other things:
@@ -206,7 +224,7 @@ styles = {
 		"color": "var(--text-color)",
 		"font-weight": "normal",
 		"padding": "14px",
-	}
+	},
 }
 
 page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
@@ -238,6 +256,7 @@ html = {
 
 st.markdown(html["hide_sidebar_button"], unsafe_allow_html=True)
 ```
+[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_3.gif)](https://st-navbar-3.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-3.streamlit.app/)
 
 ## Requirements
@@ -260,7 +279,7 @@ that are planned to be addressed in future updates. Those are:
 You are welcome to help develop these features and others. Below is a guide on
 how to do it.
 
-## Development quickstart
+## Development
 
 Ensure you have [Python 3.7+](https://www.python.org/downloads/),
 [Node.js](https://nodejs.org) and
@@ -302,7 +321,7 @@ streamlit run streamlit_navigation_bar/example.py
 
 If all goes well, you should see something like this:
 
-![Quickstart Success](images/development_quickstart.png)
+![Quickstart success](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/development.png)
 
 Modify the frontend code at
 `streamlit_navigation_bar/frontend/src/StNavbar.vue`.
@@ -311,8 +330,8 @@ Modify the Python code at `streamlit_navigation_bar/__init__.py`.
 ## References
 
 This Streamlit component is based on:
-* the [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template)
+* The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template)
 repository, that uses Vue 3 to code the frontend and Vite to serve the files
 locally during development, as well as bundle and compile them for production.
-* the [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu/tree/master)
+* The [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu/tree/master)
 component, by [@victoryhb](https://github.com/victoryhb).

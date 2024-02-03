@@ -24,8 +24,8 @@ styles = {
 		"border-width": "1px",
 		"border-color": "#4285f4",
 		"border-radius": "8px",
-	}
+	},
 }
 
 page = st_navbar(pages, styles=styles)
-st.header(page)
+st.write(page)

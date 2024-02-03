@@ -25,7 +25,7 @@ styles = {
 		"color": "var(--text-color)",
 		"font-weight": "normal",
 		"padding": "14px",
-	}
+	},
 }
 
 page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
