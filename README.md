@@ -155,7 +155,7 @@ from streamlit_navigation_bar import st_navbar
 page = st_navbar(["Home", "Documentation", "Examples", "Community", "About"])
 st.write(page)
 ```
-[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_1.gif)](https://st-navbar-1.streamlit.app/)
+[![Example 1](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_1.gif)](https://st-navbar-1.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-1.streamlit.app/)
 
 An example styling the navbar with a design similar to Streamlit's widgets:
@@ -192,7 +192,7 @@ styles = {
 page = st_navbar(pages, styles=styles)
 st.write(page)
 ```
-[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_2.gif)](https://st-navbar-2.streamlit.app/)
+[![Example 2](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_2.gif)](https://st-navbar-2.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-2.streamlit.app/)
 
 An example using a logo, multiple pages with content, among other things:
@@ -256,7 +256,7 @@ html = {
 
 st.markdown(html["hide_sidebar_button"], unsafe_allow_html=True)
 ```
-[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_3.gif)](https://st-navbar-3.streamlit.app/)
+[![Example 3](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_3.gif)](https://st-navbar-3.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-3.streamlit.app/)
 
 ## Requirements
