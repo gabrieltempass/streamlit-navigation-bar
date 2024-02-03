@@ -200,7 +200,7 @@ An example using a logo, multiple pages with content, among other things:
 import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
-import examples.st_navbar_3.pages as pg
+import pages as pg
 
 
 st.set_page_config(
@@ -277,7 +277,7 @@ that are planned to be addressed in future updates. Those are:
 * Style pseudo-classes (:link, :visited, :hover, :active).
 
 You are welcome to help develop these features and others. Below is a guide on
-how to do it.
+how to quickstart the development.
 
 ## Development
 
