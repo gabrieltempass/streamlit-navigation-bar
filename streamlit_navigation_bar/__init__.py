@@ -199,12 +199,13 @@ def st_navbar(
     if logo_path is not None:
         base64_svg = _encode_svg(open(logo_path).read())
 
-    if urls is not None:
-        for page in pages:
-            if page in urls:
-                urls[page] = [urls[page], "_blank"]
-            else:
-                urls[page] = ["#", "_self"]
+    if urls is None:
+        urls = {}
+    for page in pages:
+        if page in urls:
+            urls[page] = [urls[page], "_blank"]
+        else:
+            urls[page] = ["#", "_self"]
 
     page = _st_navbar(
         pages=pages,
