@@ -10,13 +10,18 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-pages = ["Documentation", "Examples", "Community", "About"]
+pages = ["Documentation", "Examples", "Community", "GitHub"]
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(parent_dir, "logo.svg")
-styles = {
-	"nav": {"background-color": "black"}
-}
+urls = {"GitHub": "https://github.com"}
+styles = {"nav": {"background-color": "black"}}
 
-page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
+page = st_navbar(
+    pages,
+    selected="Home",
+    logo_path=logo_path,
+    urls=urls,
+    styles=styles
+)
 
 st.write(page)

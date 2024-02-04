@@ -35,6 +35,11 @@ navigation bar. Defaults to `None`, where no logo is displayed.
 Set the page value that will be returned by clicking on the logo (if there is
 one). For a non-clickable logo, set this to `None`.
 
+**urls** : `dict of str: str`, optional</br>
+A dictionary with the page name as the key and an external URL as the value.
+The page name must be contained in the `pages` list. The URL will open in a new
+window or tab.
+
 **styles** : `dict of str: dict of str: str`, optional</br>
 A dictionary with the HTML tag name as the key and another dictionary to style
 it as the value. In the second dictionary, the key is a CSS property and the
@@ -195,9 +200,9 @@ st.write(page)
 [![Example 2](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_2.gif)](https://st-navbar-2.streamlit.app/)
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-navbar-2.streamlit.app/)
 
-An example using a logo, multiple pages with content, among other things:
+An example using a logo, an external URL, multiple pages with content, among
+other things:
 ```python
-import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 import pages as pg
@@ -208,9 +213,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-pages = ["Install", "User Guide", "API", "Examples", "Community", "More"]
-parent_dir = os.path.dirname(os.path.abspath(__file__))
-logo_path = os.path.join(parent_dir, "cubes.svg")
+pages = ["Install", "User Guide", "API", "Examples", "Community", "GitHub"]
+urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
 styles = {
 	"nav": {
 		"background-color": "#7c18c4",
@@ -227,7 +231,13 @@ styles = {
 	},
 }
 
-page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
+page = st_navbar(
+    pages,
+    selected="Home",
+    logo_path="cubes.svg",
+    urls=urls,
+    styles=styles,
+)
 
 if page == "Home":
 	pg.show_home()
@@ -241,8 +251,6 @@ elif page == "Examples":
 	pg.show_examples()
 elif page == "Community":
 	pg.show_community()
-elif page == "More":
-	pg.show_more()
 
 html = {
     "hide_sidebar_button": """
@@ -272,7 +280,6 @@ The current version of the Streamlit Navigation Bar still has some limitations,
 that are planned to be addressed in future updates. Those are:
 * Be responsive on smaller screens.
 * Adjust layout to Streamlit's sidebar.
-* Open URLs.
 * Accept other image formats (.png, .jpg).
 * Style pseudo-classes (:link, :visited, :hover, :active).
 

@@ -50,6 +50,7 @@ def st_navbar(
     selected=None,
     logo_path=None,
     logo_page="Home",
+    urls=None,
     styles=None,
     adjust_html=True,
     key=None,
@@ -77,6 +78,10 @@ def st_navbar(
     logo_page : str, default="Home"
         Set the page value that will be returned by clicking on the logo (if
         there is one). For a non-clickable logo, set this to `None`.
+    urls : dict of str: str, optional
+        A dictionary with the page name as the key and an external URL as the
+        value. The page name must be contained in the `pages` list. The URL
+        will open in a new window or tab.
     styles : dict of str: dict of str: str, optional
         A dictionary with the HTML tag name as the key and another dictionary 
         to style it as the value. In the second dictionary, the key is a CSS 
@@ -183,9 +188,10 @@ def st_navbar(
     --------
     >>> import streamlit as st
     >>> from streamlit_navigation_bar import st_navbar
-    >>> pages = ["Documentation", "Examples", "Community", "About"]
+    >>> pages = ["Documentation", "Examples", "Community", "GitHub"]
+    >>> urls = {"GitHub": "https://github.com"}
     >>> styles = {"nav": {"background-color": "black"}}
-    >>> page = st_navbar(pages, selected="Home", styles=styles)
+    >>> page = st_navbar(pages, selected="Home", urls=urls, styles=styles)
     >>> st.write(page)
     """
 
@@ -193,11 +199,19 @@ def st_navbar(
     if logo_path is not None:
         base64_svg = _encode_svg(open(logo_path).read())
 
+    if urls is not None:
+        for page in pages:
+            if page in urls:
+                urls[page] = [urls[page], "_blank"]
+            else:
+                urls[page] = ["#", "_self"]
+
     page = _st_navbar(
         pages=pages,
         default=selected,
         base64_svg=base64_svg,
         logo_page=logo_page,
+        urls=urls,
         styles=styles,
         key=key,
     )

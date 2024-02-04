@@ -9,11 +9,11 @@
           <a
             v-if="args.logo_page"
             href="#"
-            @click="onClicked(args.logo_page)"
             :style="parseStyles(styles['a'])"
+            @click="onClicked(args.logo_page)"
           >
             <img
-              :src="`data:image/svg+xml; base64, ${base64Svg}`"
+              :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
               :style="parseStyles(styles['img'])"
             />
           </a>
@@ -22,7 +22,7 @@
             :style="parseStyles(styles['a'])"
           >
             <img
-              :src="`data:image/svg+xml; base64, ${base64Svg}`"
+              :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
               :style="parseStyles(styles['img'])"
             />
           </a>
@@ -33,10 +33,10 @@
           :style="parseStyles(styles['li'])"
         >
           <a
-            class="pages"
-            href="#"
-            @click="onClicked(page)"
+            :href="`${args.urls[page][0]}`"
+            :target="`${args.urls[page][1]}`"
             :style="parseStyles(styles['a'])"
+            @click="onClicked(page)"
           >
             <span
               :data-text="page"
@@ -66,11 +66,12 @@ export default {
   setup(props) {
     useStreamlit() // Lifecycle hooks for automatic Streamlit resize
 
-    const base64Svg = ref(props.args.base64_svg)
     const selectedPage = ref(props.args.default)
     const onClicked = (page) => {
-      selectedPage.value = page
-      Streamlit.setComponentValue(page)
+      if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
+        selectedPage.value = page
+        Streamlit.setComponentValue(page)
+      }
     }
     const styles = ref(props.args.styles || {})
     const parseStyles = (dictionary, condition) => {
@@ -88,7 +89,6 @@ export default {
     }
 
     return {
-      base64Svg,
       selectedPage,
       onClicked,
       parseStyles,

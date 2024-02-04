@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 import pages as pg
@@ -9,9 +8,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-pages = ["Install", "User Guide", "API", "Examples", "Community", "More"]
-parent_dir = os.path.dirname(os.path.abspath(__file__))
-logo_path = os.path.join(parent_dir, "cubes.svg")
+pages = ["Install", "User Guide", "API", "Examples", "Community", "GitHub"]
+urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
 styles = {
 	"nav": {
 		"background-color": "#7c18c4",
@@ -28,7 +26,13 @@ styles = {
 	},
 }
 
-page = st_navbar(pages, selected="Home", logo_path=logo_path, styles=styles)
+page = st_navbar(
+    pages,
+    selected="Home",
+    logo_path="cubes.svg",
+    urls=urls,
+    styles=styles,
+)
 
 if page == "Home":
 	pg.show_home()
@@ -42,8 +46,6 @@ elif page == "Examples":
 	pg.show_examples()
 elif page == "Community":
 	pg.show_community()
-elif page == "More":
-	pg.show_more()
 
 html = {
     "hide_sidebar_button": """
