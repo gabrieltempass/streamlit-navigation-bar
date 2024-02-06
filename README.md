@@ -28,8 +28,8 @@ The page that will be selected by default when the navigation bar is displayed.
 It could be one of the pages list values, but it is not limited to them.
 
 **logo_path** : `str`, optional</br>
-The path to an SVG file for a logo. It will be shown on the left side of the
-navigation bar. Defaults to `None`, where no logo is displayed.
+The absolute path to an SVG file for a logo. It will be shown on the left side
+of the navigation bar. Defaults to `None`, where no logo is displayed.
 
 **logo_page** : `str`, `default="Home"`</br>
 Set the page value that will be returned by clicking on the logo (if there is
@@ -203,6 +203,7 @@ st.write(page)
 An example using a logo, an external URL, multiple pages with content, among
 other things:
 ```python
+import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 import pages as pg
@@ -214,6 +215,8 @@ st.set_page_config(
 )
 
 pages = ["Install", "User Guide", "API", "Examples", "Community", "GitHub"]
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+logo_path = os.path.join(parent_dir, "cubes.svg")
 urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
 styles = {
 	"nav": {
@@ -234,7 +237,7 @@ styles = {
 page = st_navbar(
     pages,
     selected="Home",
-    logo_path="cubes.svg",
+    logo_path=logo_path,
     urls=urls,
     styles=styles,
 )

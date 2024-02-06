@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 import pages as pg
@@ -9,6 +10,8 @@ st.set_page_config(
 )
 
 pages = ["Install", "User Guide", "API", "Examples", "Community", "GitHub"]
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+logo_path = os.path.join(parent_dir, "cubes.svg")
 urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
 styles = {
 	"nav": {
@@ -29,7 +32,7 @@ styles = {
 page = st_navbar(
     pages,
     selected="Home",
-    logo_path="cubes.svg",
+    logo_path=logo_path,
     urls=urls,
     styles=styles,
 )
