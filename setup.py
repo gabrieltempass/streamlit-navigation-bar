@@ -8,7 +8,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="streamlit-navigation-bar",
-    version="1.1.2",
+    version="2.0.0",
     author="Gabriel Tem Pass",
     author_email="redo_hint_0x@icloud.com",
     description="A Streamlit component that allows you to place a navigation bar in your Streamlit app.",
@@ -20,13 +20,13 @@ setup(
     ],
     include_package_data=True,
     package_data={
-        "streamlit_navigation_bar": ["adjustments.html"],
+        "streamlit_navigation_bar": ["templates/*.css"],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=[
         "streamlit >= 1.30",
     ],
