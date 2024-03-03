@@ -14,6 +14,9 @@ styles = {
 		"background-color": "#7c18c4",
 		"justify-content": "left",
 	},
+	"img": {
+		"padding-right": "14px",
+	},
 	"span": {
 		"padding": "14px",
 	},
