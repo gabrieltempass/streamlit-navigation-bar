@@ -1,0 +1,35 @@
+{# style_navbar #}
+iframe[title="streamlit_navigation_bar.st_navbar"] {
+    position: fixed;
+    z-index: 9999;
+    {% if margin %}
+    width: calc(100% - 5.125rem);
+    margin-left: 2.5625rem;
+    margin-right: 2.5625rem;
+    {% else %}
+    width: 100%;
+    {% endif %}
+    left: 0;
+}
+header[data-testid="stHeader"] {
+    z-index: 9998;
+    height: {{ height }};
+    background-color: {{ bg_color }};
+}
+#stDecoration {
+    visibility: hidden;
+}
+
+{# adjust_padding #}
+.ea3mdgi2:nth-child(1) {
+    padding-top: 0px;
+}
+div[data-testid="stAppViewBlockContainer"] {
+    padding-top: 0px;
+}
+.e1f1d6gn4:nth-child({{ position }}):not(div[data-testid="stHorizontalBlock"] div) {
+    margin-bottom: -1rem;
+}
+.e1f1d6gn4:nth-child({{ position + 1 }}):not(div[data-testid="stHorizontalBlock"] div) {
+    padding-top: 6rem;
+}

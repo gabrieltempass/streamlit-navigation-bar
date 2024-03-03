@@ -1,0 +1,50 @@
+{% block show_menu %}
+div[data-testid="stToolbar"] {
+    top: calc(({{ height }} - 2rem) / 2);
+    right: 0.3125rem;
+}
+div[class="stStatusWidget"] {
+    visibility: hidden;
+}
+div[class="stDeployButton"] {
+    visibility: hidden;
+}
+span[data-testid="stMainMenu"] {
+    visibility: {{ visibility }};
+}
+span[data-testid="stMainMenu"] path:nth-of-type(2) {
+    fill: {{ color }};
+}
+span[data-testid="stMainMenu"]:hover path:nth-of-type(2) {
+    fill: {{ hover_color }};
+}
+span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:hover {
+    background-color: {{ hover_bg_color }};
+}
+.e1f1d6gn4:nth-child({{ position }}):not(div[data-testid="stHorizontalBlock"] div) {
+    margin-bottom: -1rem;
+}
+{% endblock %}
+
+{% block show_sidebar %}
+div[data-testid="collapsedControl"] {
+    visibility: {{ visibility }};
+    top: calc(({{ height }} - 2rem) / 2);
+    left: 0.3125rem;
+}
+div[data-testid="collapsedControl"] path:nth-of-type(2) {
+    fill: {{ color }};
+}
+div[data-testid="collapsedControl"]:hover path:nth-of-type(2) {
+    fill: {{ hover_color }};
+}
+div[data-testid="collapsedControl"] button[data-testid="baseButton-headerNoPadding"]:hover {
+    background-color: {{ hover_bg_color }};
+}
+div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hover {
+    background-color: rgba(151, 166, 195, 0.25);
+}
+.e1f1d6gn4:nth-child({{ position }}):not(div[data-testid="stHorizontalBlock"] div) {
+    margin-bottom: -1rem;
+}
+{% endblock %}

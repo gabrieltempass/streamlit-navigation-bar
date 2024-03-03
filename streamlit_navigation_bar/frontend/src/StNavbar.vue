@@ -40,8 +40,8 @@
           >
             <span
               :data-text="page"
-              :class="{selected: page === selectedPage}"
-              :style="parseStyles(styles['span']) + parseStyles(styles['selected'], page === selectedPage)"
+              :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
+              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
             >
               {{ page }}
             </span>
@@ -66,14 +66,17 @@ export default {
   setup(props) {
     useStreamlit() // Lifecycle hooks for automatic Streamlit resize
 
-    const selectedPage = ref(props.args.default)
+    const activePage = ref(props.args.default)
+
     const onClicked = (page) => {
       if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
-        selectedPage.value = page
+        activePage.value = page
         Streamlit.setComponentValue(page)
       }
     }
+
     const styles = ref(props.args.styles || {})
+
     const parseStyles = (dictionary, condition) => {
       if (typeof condition === "undefined") {
         condition = true
@@ -88,11 +91,35 @@ export default {
       return styleString
     }
 
+    let color = ""
+    let bgColor = ""
+    if ("hover" in styles.value) {
+      const stylesHover = styles.value["hover"]
+      if ("color" in stylesHover) {
+        color = stylesHover["color"]
+      }
+      if ("background-color" in stylesHover) {
+        bgColor = stylesHover["background-color"]
+      }
+    }
+    let hoverColor = ""
+    if (!(color === "")) {
+      hoverColor = ref("hover-color")
+    }
+    let hoverBgColor = ""
+    if (!(bgColor === "")) {
+      hoverBgColor = ref("hover-bg-color")
+    }
+
     return {
-      selectedPage,
+      activePage,
       onClicked,
+      styles,
       parseStyles,
-      styles
+      color,
+      bgColor,
+      hoverColor,
+      hoverBgColor,
     }
   },
 }
@@ -109,7 +136,7 @@ nav {
   align-items: center;
   background-color: var(--primary-color);
   font-family: var(--font);
-  height: 2.8125rem;
+  height: 2.875rem;
   padding-left: 2rem;
   padding-right: 2rem;
 }
@@ -139,7 +166,7 @@ span {
   color: white;
   text-align: center;
 }
-.selected {
+.active {
   color: white;
   font-weight: bold;
 }
@@ -152,5 +179,11 @@ span::before {
   visibility: hidden;
   user-select: none;
   pointer-events: none;
+}
+.hover-color:hover {
+  color: v-bind(color) !important;
+}
+.hover-bg-color:hover {
+  background-color: v-bind(bgColor) !important;
 }
 </style>
