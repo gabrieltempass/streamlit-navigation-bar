@@ -1,8 +1,4 @@
 [theme]
 # The preset Streamlit theme that your custom theme inherits from.
 # One of "light" or "dark".
-base="light"
-
-[ui]
-# Hide the running animation and the stop and menu buttons.
-hideTopBar = true
+base = "light"
