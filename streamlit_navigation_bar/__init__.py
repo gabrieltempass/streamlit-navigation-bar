@@ -6,6 +6,7 @@ import streamlit.components.v1 as components
 from streamlit.config import get_config_options
 from jinja2 import FileSystemLoader, Environment
 from jinja2.utils import concat
+from streamlit_theme import st_theme
 
 from streamlit_navigation_bar.errors import (
     check_pages,
@@ -18,7 +19,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = True
+_RELEASE = False
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
@@ -90,7 +91,7 @@ def _adjust(css):
     st.markdown(wrapped, unsafe_allow_html=True)
 
 
-def _get_style(styles, targets, css_property, default, option=None):
+def _get_style(styles, theme, targets, css_property, default, option=None):
     """
     Get the value of a CSS property.
 
@@ -138,12 +139,23 @@ def _get_style(styles, targets, css_property, default, option=None):
         The value of the CSS property set via the styles dictionary,
         configuration option or default value.
     """
+
+    config_options = {
+        "var(--primary-color)": "primaryColor",
+        "var(--background-color)": "backgroundColor",
+        "var(--secondary-background-color)": "secondaryBackgroundColor",
+        "var(--text-color)": "textColor",
+        "var(--font)": "font",
+    }
     value = None
 
     for target in targets:
         if styles is not None and target in styles:
             if css_property in styles[target]:
-                return styles[target][css_property]
+                value = styles[target][css_property]
+                if theme is not None and value in config_options:
+                    return theme[config_options[value]]
+                return value
 
     if value is None and option is not None:
         value = get_config_options()[f"theme.{option}"].value
@@ -218,14 +230,19 @@ def adjust_css(styles, adjust, templates_path):
         The ``options.css`` template must have the CSS adjustments for each
         option inside a Jinja block, named after the respective option.
     """
-    height = _get_style(styles, ["nav"], "height", "2.875rem")
-    color = _get_style(styles, ["span"], "color", "white")
-    hover_color = _get_style(styles, ["hover", "span"], "color", "white")
+    theme = st_theme(adjust=False, key=99)
+
+    height = _get_style(styles, theme, ["nav"], "height", "2.875rem")
+    color = _get_style(styles, theme, ["span"], "color", "white")
+    hover_color = _get_style(
+        styles, theme, ["hover", "span"], "color", "white"
+    )
     bg_color = _get_style(
-        styles, ["nav"], "background-color", "#ff4b4b", option="primaryColor"
+        styles, theme, ["nav"], "background-color", "#ff4b4b",
+        option="primaryColor"
     )
     hover_bg_color = _get_style(
-        styles, ["hover"], "background-color", "transparent"
+        styles, theme, ["hover"], "background-color", "transparent"
     )
 
     env = load_env(templates_path)
