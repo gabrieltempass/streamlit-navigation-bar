@@ -316,7 +316,8 @@ npm run dev
 ```
 
 3. From a separate terminal, go to the repository root directory, create a new
-Python virtual environment, activate it and install Streamlit and the template
+Python virtual environment, activate it and install Streamlit,
+[st-theme](https://github.com/gabrieltempass/streamlit-theme) and the template
 as an editable package:
 ``` bash
 cd streamlit-navigation-bar
@@ -325,6 +326,7 @@ cd streamlit-navigation-bar
 python3 -m venv venv
 . venv/bin/activate
 pip install streamlit
+pip install st-theme
 pip install -e .
 ```
 
