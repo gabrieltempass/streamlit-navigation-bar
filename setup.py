@@ -8,10 +8,10 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="streamlit-navigation-bar",
-    version="2.0.0",
+    version="2.0.1",
     author="Gabriel Tem Pass",
     author_email="redo_hint_0x@icloud.com",
-    description="A Streamlit component that allows you to place a navigation bar in your Streamlit app.",
+    description="A component that allows you to place a navigation bar in your Streamlit app.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gabrieltempass/streamlit-navigation-bar",
