@@ -102,7 +102,6 @@ def _get_style(styles, targets, css_property, default, option=None):
 
     Parameters
     ----------
-
     styles : dict of str: dict of str: str
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
@@ -206,7 +205,8 @@ def adjust_css(styles, adjust, templates_path):
         In most cases, the CSS adjustments do not interfere with the rest of
         the web app, however there could be some situations where this occurs.
         If this happens, or it is desired to disable all of them, pass ``None``
-        to `adjust` and make your own CSS adjustments with ``st.markdown``.
+        to `adjust` and, when necessary, make your own CSS adjustments with
+        ``st.markdown``.
     templates_path : str
         The absolute path to the directory containing the Jinja templates with
         the CSS adjustments. The directory must contain two templates, one
@@ -230,6 +230,9 @@ def adjust_css(styles, adjust, templates_path):
 
     env = load_env(templates_path)
 
+    # The navbar div is in the first position. Each adjustment with
+    # `st.markdown()` adds another div below it, that has a margin that must be
+    # counterposed with `margin-bottom: -1rem;`
     position = 2
     options = env.get_template("options.css")
     for key, block_fun in options.blocks.items():
@@ -339,7 +342,8 @@ def st_navbar(
         In most cases, the CSS adjustments do not interfere with the rest of
         the web app, however there could be some situations where this occurs.
         If this happens, or it is desired to disable all of them, pass ``None``
-        to `adjust` and make your own CSS adjustments with ``st.markdown``.
+        to `adjust` and, when necessary, make your own CSS adjustments with
+        ``st.markdown``.
     key : str or int, optional
         A string or integer to use as a unique key for the component. If this
         is omitted, a key will be generated for the widget based on its
@@ -353,7 +357,6 @@ def st_navbar(
 
     Notes
     -----
-
     **Theme variables**
 
     The component uses by default two CSS variables from the web app's theme,
@@ -422,15 +425,11 @@ def st_navbar(
 
     Examples
     --------
-
     >>> import streamlit as st
-    >>>
     >>> from streamlit_navigation_bar import st_navbar
-    >>>
     >>> page = st_navbar(
     ...     ["Home", "Documentation", "Examples", "Community", "About"]
     ... )
-    >>>
     >>> st.write(page)
 
     .. output::

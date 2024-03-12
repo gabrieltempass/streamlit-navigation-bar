@@ -74,8 +74,8 @@ button.
 
 In most cases, the CSS adjustments do not interfere with the rest of the web
 app, however there could be some situations where this occurs. If this happens,
-or it is desired to disable all of them, pass ``None`` to *adjust* and make
-your own CSS adjustments with ``st.markdown``.
+or it is desired to disable all of them, pass ``None`` to *adjust* and, when
+necessary, make your own CSS adjustments with ``st.markdown``.
 
 **key** : `str` or `int`, optional</br>
 A string or integer to use as a unique key for the component. If this is
@@ -95,7 +95,7 @@ The component uses by default two CSS variables from the
 [web app's theme](https://docs.streamlit.io/library/advanced-features/theming),
 to style the ``"nav"`` tag. They are:
 
-```css
+``` css
 nav {
   font-family: var(--font);
   background-color: var(--primary-color);
@@ -105,7 +105,7 @@ nav {
 It also accepts the theme variables to be passed in the *styles* dictionary, as
 the values for the CSS properties, for example:
 
-```python
+``` python
 styles = {
     "span": {"color": "var(--text-color)"}
 }
@@ -166,7 +166,7 @@ few pages or short names, this value may need to be reduced.
 ## Examples
 
 A basic example:
-```python
+``` python
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
@@ -178,7 +178,7 @@ st.write(page)
 [**[Source]**](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/examples/st_navbar_1/streamlit_app.py)
 
 An example styling the navbar with a design similar to Streamlit's sidebar navigation:
-```python
+``` python
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
@@ -218,7 +218,7 @@ with st.sidebar:
 
 An example using a logo, an external URL, multiple pages with content, among
 other things:
-```python
+``` python
 import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
@@ -275,7 +275,7 @@ if go_to:
 To use the navigation bar component in your Streamlit app, you will need:
 * **Python 3.8+**
 * **Streamlit 1.30+** (older versions of Streamlit will cause the *adjust*
-parameter from `st_navbar` to not work properly when set to ``True`` or
+parameter from ``st_navbar`` to not work properly when set to ``True`` or
 ``False``)
 
 ## Roadmap
@@ -287,6 +287,7 @@ that are planned to be addressed in future updates. Those are:
 * Style ``:link`` and ``:visited`` pseudo-classes and any CSS property for
 ``:hover``.
 * Select predefined themes to style the navbar.
+* Set light and dark mode styles for the navbar.
 * Apply a format function to the displayed pages.
 
 You are welcome to help develop these features and others. Below is a guide on
