@@ -161,6 +161,8 @@ def _get_style(styles, theme, targets, css_property, default, option=None):
         value = get_config_options()[f"theme.{option}"].value
     
     if value is None:
+        if theme is not None and default in theme:
+            return theme[default]
         value = default
 
     return value
@@ -230,16 +232,20 @@ def adjust_css(styles, adjust, templates_path):
         The ``options.css`` template must have the CSS adjustments for each
         option inside a Jinja block, named after the respective option.
     """
-    theme = st_theme(adjust=False, key=99)
+    theme = st_theme(key="navbar")
 
     height = _get_style(styles, theme, ["nav"], "height", "2.875rem")
-    color = _get_style(styles, theme, ["span"], "color", "white")
+    color = _get_style(styles, theme, ["span"], "color", "textColor")
     hover_color = _get_style(
-        styles, theme, ["hover", "span"], "color", "white"
+        styles, theme, ["hover", "span"], "color", "textColor"
     )
     bg_color = _get_style(
-        styles, theme, ["nav"], "background-color", "#ff4b4b",
-        option="primaryColor"
+        styles,
+        theme,
+        ["nav"],
+        "background-color",
+        "secondaryBackgroundColor",
+        option="secondaryBackgroundColor",
     )
     hover_bg_color = _get_style(
         styles, theme, ["hover"], "background-color", "transparent"
@@ -248,7 +254,7 @@ def adjust_css(styles, adjust, templates_path):
     env = load_env(templates_path)
 
     # The navbar div is in the first position. Each adjustment with
-    # `st.markdown()` adds another div below it, that has a margin that must be
+    # `st.markdown` adds another div below it, that has a margin that must be
     # counterposed with `margin-bottom: -1rem;`
     position = 2
     options = env.get_template("options.css")

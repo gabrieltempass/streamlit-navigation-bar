@@ -5,14 +5,10 @@ st.set_page_config(initial_sidebar_state="collapsed")
 
 pages = ["Home", "Library", "Tutorials", "Development", "Download"]
 styles = {
-	"nav": {
-		"background-color": "rgb(240, 242, 246)",
-	},
 	"div": {
-		"max-width": "31.25rem",
+		"max-width": "32rem",
 	},
 	"span": {
-		"color": "var(--text-color)",
 		"border-radius": "0.5rem",
 		"padding": "0.4375rem 0.625rem",
 		"margin": "0 0.125rem",

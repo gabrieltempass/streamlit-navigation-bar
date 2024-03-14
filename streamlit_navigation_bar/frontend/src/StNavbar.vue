@@ -134,7 +134,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-background-color);
   font-family: var(--font);
   height: 2.875rem;
   padding-left: 2rem;
@@ -163,11 +163,11 @@ img {
 }
 span {
   display: block;
-  color: white;
+  color: var(--text-color);
   text-align: center;
 }
 .active {
-  color: white;
+  color: var(--text-color);
   font-weight: bold;
 }
 span::before {

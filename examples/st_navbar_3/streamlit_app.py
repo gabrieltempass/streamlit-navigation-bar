@@ -18,6 +18,7 @@ styles = {
 		"padding-right": "14px",
 	},
 	"span": {
+		"color": "white",
 		"padding": "14px",
 	},
 	"active": {
