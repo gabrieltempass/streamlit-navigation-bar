@@ -3,11 +3,9 @@ import base64
 
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit.config import get_config_options
 from jinja2 import FileSystemLoader, Environment
-from jinja2.utils import concat
-from streamlit_theme import st_theme
 
+from streamlit_navigation_bar.match_navbar import MatchNavbar
 from streamlit_navigation_bar.errors import (
     check_pages,
     check_selected,
@@ -16,6 +14,7 @@ from streamlit_navigation_bar.errors import (
     check_urls,
     check_styles,
     check_adjust,
+    check_key,
 )
 
 
@@ -53,6 +52,21 @@ def _prepare_urls(urls, pages):
     return urls
 
 
+def _prepare_adjust(adjust):
+    """."""
+    options = {
+        "show_menu": True,
+        "show_sidebar": True,
+        "fixed_shadow": True,
+    }
+    for option in options:
+        if isinstance(adjust, dict) and option in adjust:
+            options[option] = adjust[option]
+        elif isinstance(adjust, bool) and not adjust:
+            options[option] = adjust
+    return options
+
+
 def get_path(directory):
     """Get the abs path for a directory in the same location as this file."""
     parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -65,110 +79,54 @@ def load_env(templates_path):
     return Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
 
-def _get_visibility(adjust, key):
-    """Return if the option is visible or hidden, based on the user's input."""
-    if isinstance(adjust, dict) and key in adjust:
-        return "visible" if adjust[key] else "hidden"
-    return "visible" if adjust else "hidden"
-
-
-def _get_margin(adjust):
-    """Return if a margin is needed for any visible Streamlit UI elements."""
-    if (
-        isinstance(adjust, bool)
-        or ("show_menu" not in adjust)
-        or ("show_sidebar" not in adjust)
-        or ("show_menu" in adjust and adjust["show_menu"])
-        or ("show_sidebar" in adjust and adjust["show_sidebar"])
-    ):
-        return True
-    return False
-
-
 def _adjust(css):
-    """Prepare and apply a CSS adjustment."""
+    """Apply a CSS adjustment."""
     wrapped = "<style>" + css + "</style>"
     st.markdown(wrapped, unsafe_allow_html=True)
 
 
-def _get_style(styles, theme, targets, css_property, default, option=None):
+def stylized_container(key):
     """
-    Get the value of a CSS property.
-
-    Search for the right value in order to style seamlessly Streamlit's header
-    and its UI elements, e.g. menu and sidebar buttons, with the navbar. First,
-    it looks for a possible value defined via the `styles` dictionary. If there
-    is not one, search the configuration options. If it still cannot be found,
-    return a default value.
+    Insert a container into the app, which receives an iframe that does not
+    render anything. Style this container using CSS and a unique key to remove
+    the space added by Streamlit.
 
     Parameters
     ----------
-    styles : dict of str: dict of str: str
-        Apply CSS styles to desired targets, through a dictionary with the HTML
-        tag or pseudo-class name as the key and another dictionary to style it
-        as the value. In the second dictionary, the key-value pair is the name
-        of a CSS property and the value it takes. The keys and values must be
-        strings.
-    targets : list of str
-        The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
-        ``"a"``, ``"img"`` and ``"span"``. To better understand the document
-        tree, check the notes section.
-
-        The available pseudo-classes are: ``"active"`` and ``"hover"``, which
-        direct the styling to the ``"span"`` tag. The menu and sidebar buttons
-        are only styled by ``"hover"`` (if they are set to ``True`` in
-        `adjust`). Currently, ``"hover"`` only accepts two CSS properties, they
-        are: ``"color"`` and ``"background-color"``.
-
-        The function searches for the value with the target that is in the
-        first position of the list, if it does not find it, it iterates until
-        the last item. When it finds the value, it returns it, even if there
-        are still more targets in the list.
-    css_property : str
-        The name of the CSS property to get the value of.
-    default : str
-        The default value to be returned, in case the CSS property is not found
-        in the styles dictionary or in the configurations.
-    option : str, optional
-        The name of the configuration option to get its value from. The
-        configuration option could be in a TOML file for example.
+    key : str or int or None
+        A key associated with this container. This needs to be unique since all
+        styles will be applied to the container with this key.
 
     Returns
     -------
-    value : str
-        The value of the CSS property set via the styles dictionary,
-        configuration option or default value.
+    container : DeltaGenerator
+        A container object. Elements can be added to this container using
+        either the "with" notation or by calling methods directly on the
+        returned object.
     """
+    html = (
+        f"""
+        <style>
+            div[data-testid='stVerticalBlock']:has(
+                > div.element-container
+                > div.stMarkdown
+                > div[data-testid='stMarkdownContainer']
+                > p
+                > span.{key}
+            ) > div:first-child {{
+                margin-bottom: -1rem;
+            }}
+        </style>
+        <span class='{key}'></span>
+        """
+    )
 
-    config_options = {
-        "var(--primary-color)": "primaryColor",
-        "var(--background-color)": "backgroundColor",
-        "var(--secondary-background-color)": "secondaryBackgroundColor",
-        "var(--text-color)": "textColor",
-        "var(--font)": "font",
-    }
-    value = None
-
-    for target in targets:
-        if styles is not None and target in styles:
-            if css_property in styles[target]:
-                value = styles[target][css_property]
-                if theme is not None and value in config_options:
-                    return theme[config_options[value]]
-                return value
-
-    if value is None and option is not None:
-        value = get_config_options()[f"theme.{option}"].value
-    
-    if value is None:
-        if theme is not None and default in theme:
-            return theme[default]
-        value = default
-
-    return value
+    container = st.container()
+    container.markdown(html, unsafe_allow_html=True)
+    return container
 
 
-def adjust_css(styles, adjust, templates_path):
+def adjust_css(styles, adjust, key, templates_path):
     """
     Apply CSS adjustments to display the navbar correctly.
 
@@ -221,6 +179,9 @@ def adjust_css(styles, adjust, templates_path):
         If this happens, or it is desired to disable all of them, pass ``None``
         to `adjust` and, when necessary, make your own CSS adjustments with
         ``st.markdown``.
+    key : str or int or None
+        A key associated with this container. This needs to be unique since all
+        styles will be applied to the container with this key.
     templates_path : str
         The absolute path to the directory containing the Jinja templates with
         the CSS adjustments. The directory must contain two templates, one
@@ -232,59 +193,51 @@ def adjust_css(styles, adjust, templates_path):
         The ``options.css`` template must have the CSS adjustments for each
         option inside a Jinja block, named after the respective option.
     """
-    theme = st_theme(key="navbar")
+    ui = MatchNavbar(styles, key)
 
-    height = _get_style(styles, theme, ["nav"], "height", "2.875rem")
-    color = _get_style(styles, theme, ["span"], "color", "textColor")
-    hover_color = _get_style(
-        styles, theme, ["hover", "span"], "color", "textColor"
+    ui.height = ui.get_value(
+        targets=["nav"],
+        css_property="height",
+        default="2.875rem",
     )
-    bg_color = _get_style(
-        styles,
-        theme,
-        ["nav"],
-        "background-color",
-        "secondaryBackgroundColor",
+    ui.hover_bg_color = ui.get_value(
+        targets=["hover"],
+        css_property="background-color",
+        default="transparent",
+    )
+    ui.color = ui.get_value(
+        targets=["span"],
+        css_property="color",
+        option="textColor",
+        default="rgb(49, 51, 63)",
+    )
+    ui.bg_color = ui.get_value(
+        targets=["nav"],
+        css_property="background-color",
         option="secondaryBackgroundColor",
+        default="rgb(240, 242, 246)",
     )
-    hover_bg_color = _get_style(
-        styles, theme, ["hover"], "background-color", "transparent"
+    ui.hover_color = ui.get_value(
+        targets=["hover", "span"],
+        css_property="color",
+        option="textColor",
+        default="rgb(49, 51, 63)",
     )
+
+    adjust = _prepare_adjust(adjust)
+    margin = adjust["show_menu"] or adjust["show_sidebar"]
+    key = f"st_navbar_key_{key}"
 
     env = load_env(templates_path)
-
-    # The navbar div is in the first position. Each adjustment with
-    # `st.markdown` adds another div below it, that has a margin that must be
-    # counterposed with `margin-bottom: -1rem;`
-    position = 2
-    options = env.get_template("options.css")
-    for key, block_fun in options.blocks.items():
-
-        visibility = _get_visibility(adjust, key)
-        context_o = options.new_context(
-            {
-                "height": height,
-                "color": color,
-                "position": position,
-                "visibility": visibility,
-                "hover_color": hover_color,
-                "hover_bg_color": hover_bg_color,
-            }
-        )
-        _adjust(concat(block_fun(context_o)))
-        position += 1
-
-    margin = _get_margin(adjust)
-    base = env.get_template("base.css")
-    context_b = base.new_context(
-        {
-            "height": height,
-            "bg_color": bg_color,
-            "position": position,
-            "margin": margin,
-        }
+    template = env.get_template("options.css")
+    css = template.render(
+        adjust=adjust,
+        ui=ui,
+        margin=margin,
+        key=key,
     )
-    _adjust(base.render(context_b))
+    with stylized_container(key=key):
+        _adjust(css)
 
 
 # A placeholder object to implement the default rules for selected
@@ -368,9 +321,8 @@ def st_navbar(
         to `adjust` and, when necessary, make your own CSS adjustments with
         ``st.markdown``.
     key : str or int, optional
-        A string or integer to use as a unique key for the component. If this
-        is omitted, a key will be generated for the widget based on its
-        content. Multiple navbars of the same type may not share the same key.
+        A string or integer to use as a unique key for the component. Multiple
+        navbars may not share the same key. Defaults to ``None``.
 
     Returns
     -------
@@ -382,19 +334,13 @@ def st_navbar(
     -----
     **Theme variables**
 
-    The component uses by default two CSS variables from the web app's theme,
-    to style the ``"nav"`` tag. They are::
-    
-        nav {
-          font-family: var(--font);
-          background-color: var(--primary-color);
-        }
-    
-    It also accepts the theme variables to be passed in the `styles`
+    The component accepts theme variables to be passed in the `styles`
     dictionary, as the values for the CSS properties, for example::
     
         styles = {
-            "span": {"color": "var(--text-color)"}
+            "nav": {
+                "background-color": "var(--primary-color)"
+            }
         }
     
     The theme variables that can be used are::
@@ -405,13 +351,30 @@ def st_navbar(
         --text-color
         --font
 
-    **Document tree**
+    By default, it uses the following theme variables to style ``"nav"``,
+    ``"span"`` and ``"active"``::
+    
+        styles = {
+            "nav": {
+                "font-family": "var(--font)",
+                "background-color": "var(--secondary-background-color)"
+            },
+            "span": {
+                "color": "var(--text-color)"
+            },
+            "active": {
+                "color": "var(--text-color)"
+            }
+        }
+    
+    They can be overridden by simply passing another value to `styles`.
+
+    **Document Object Model**
     
     To style the navigation bar, it is important to understand its Document
-    Object Model (DOM), also known as document tree. Take a scenario where the
-    navbar was created with ``pages=["Hello, World!"]`` and an SVG logo. On the
-    frontend side, the component will build this DOM (simplified for
-    readability)::
+    Object Model (DOM). For example, if a navbar is created with
+    ``pages=["Hello, World!"]`` and an SVG logo. On the frontend side, the
+    component builds this DOM (simplified for readability)::
 
         <nav>
           <div>
@@ -434,13 +397,13 @@ def st_navbar(
 
     Notice that the ``"a"`` tag will style both the logo and the page name.
     However, the ``"img"`` tag is unique to the logo, just as ``"span"`` is to
-    the pages names.
+    the page names.
 
     **Maximum width**
 
     A fundamental CSS property to adjust is the ``"max-width"`` for the
-    ``"div"`` tag. That is because it controls how much space the page names
-    will have between them. The default value is ``"700px"``, which works well
+    ``"div"`` tag. Because it controls how much space the page names have
+    between them. The default value is ``"700px"``, which works well
     in most cases. But if the navbar has a large number of pages, or longer
     names, it might be necessary to increase the maximum width. Conversely,
     whenever the navbar has few pages or short names, this value may need to
@@ -466,6 +429,7 @@ def st_navbar(
     check_urls(urls, pages)
     check_styles(styles)
     check_adjust(adjust)
+    check_key(key)
 
     if selected is sentinel:
         if logo_path is not None:
@@ -492,7 +456,6 @@ def st_navbar(
     )
 
     if adjust is not None:
-        adjust_css(styles, adjust, get_path("templates"))
+        adjust_css(styles, adjust, key, get_path("templates"))
 
     return page
-

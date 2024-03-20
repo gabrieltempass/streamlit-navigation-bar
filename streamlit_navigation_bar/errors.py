@@ -222,3 +222,10 @@ def check_adjust(adjust):
                 _dict_error(toggle, "adjust", "value", "bool")
             )
 
+
+def check_key(key):
+    """Check if `key` has a valid type."""
+    if not isinstance(key, str) and not isinstance(key, int) and key is not None:
+        raise StreamlitAPIException(
+            _type_error(key, "key", ["str", "int", "None"])
+        )

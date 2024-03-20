@@ -13,23 +13,74 @@ iframe[title="streamlit_navigation_bar.st_navbar"] {
 }
 header[data-testid="stHeader"] {
     z-index: 9998;
-    height: {{ height }};
-    background-color: {{ bg_color }};
+    height: {{ ui.height }};
+    background-color: {{ ui.bg_color }};
 }
 #stDecoration {
     visibility: hidden;
 }
 
-{# adjust_padding #}
-.ea3mdgi2:nth-child(1) {
-    padding-top: 0px;
+{# style_menu #}
+{% if not adjust["show_menu"] %}
+{% block show_menu %}{% endblock %}
+{% endif %}
+div[data-testid="stToolbar"] {
+    top: calc(({{ ui.height }} - 2rem) / 2);
+    right: 0.3125rem;
 }
+div[class="stStatusWidget"] {
+    visibility: hidden;
+}
+div[class="stDeployButton"] {
+    visibility: hidden;
+}
+span[data-testid="stMainMenu"] path:nth-of-type(2) {
+    fill: {{ ui.color }};
+}
+span[data-testid="stMainMenu"]:hover path:nth-of-type(2) {
+    fill: {{ ui.hover_color }};
+}
+span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:hover {
+    background-color: {{ ui.hover_bg_color }};
+}
+
+{# style_sidebar #}
+{% if not adjust["show_sidebar"] %}
+{% block show_sidebar %}{% endblock %}
+{% endif %}
+div[data-testid="collapsedControl"] {
+    top: calc(({{ ui.height }} - 2rem) / 2);
+    left: 0.3125rem;
+}
+div[data-testid="collapsedControl"] path:nth-of-type(2) {
+    fill: {{ ui.color }};
+}
+div[data-testid="collapsedControl"]:hover path:nth-of-type(2) {
+    fill: {{ ui.hover_color }};
+}
+div[data-testid="collapsedControl"] button[data-testid="baseButton-headerNoPadding"]:hover {
+    background-color: {{ ui.hover_bg_color }};
+}
+div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hover {
+    background-color: rgba(151, 166, 195, 0.25);
+}
+
+{# fix_shadow #}
+{% if not adjust["fix_shadow"] %}
+{% block fix_shadow %}{% endblock %}
+{% endif %}
+
+{# adjust_padding #}
 div[data-testid="stAppViewBlockContainer"] {
     padding-top: 0px;
 }
-.e1f1d6gn4:nth-child({{ position }}):not(div[data-testid="stHorizontalBlock"] div) {
-    margin-bottom: -1rem;
-}
-.e1f1d6gn4:nth-child({{ position + 1 }}):not(div[data-testid="stHorizontalBlock"] div) {
-    padding-top: 6rem;
+div[data-testid="stVerticalBlockBorderWrapper"]:has(
+    div[data-testid="stVerticalBlock"]
+    > div.element-container
+    > div.stMarkdown
+    > div[data-testid="stMarkdownContainer"]
+    > p
+    > span.{{ key }}
+) {
+    margin-bottom: 5rem;
 }
