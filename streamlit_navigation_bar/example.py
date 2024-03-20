@@ -15,14 +15,14 @@ styles = {
     "nav": {"background-color": "black"},
     "span": {"color": "white"},
 }
-adjust = {"show_sidebar": False}
+options = {"show_sidebar": False}
 
 page = st_navbar(
     pages,
     logo_path=logo_path,
     urls=urls,
     styles=styles,
-    adjust=adjust,
+    options=options,
 )
 st.write(page)
 

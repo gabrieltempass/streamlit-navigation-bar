@@ -13,6 +13,7 @@ from streamlit_navigation_bar.errors import (
     check_logo_page,
     check_urls,
     check_styles,
+    check_options,
     check_adjust,
     check_key,
 )
@@ -52,19 +53,25 @@ def _prepare_urls(urls, pages):
     return urls
 
 
-def _prepare_adjust(adjust):
+def _prepare_options(options):
     """."""
-    options = {
+    available = {
         "show_menu": True,
         "show_sidebar": True,
         "fixed_shadow": True,
     }
-    for option in options:
-        if isinstance(adjust, dict) and option in adjust:
-            options[option] = adjust[option]
-        elif isinstance(adjust, bool) and not adjust:
-            options[option] = adjust
-    return options
+    for option in available:
+        if isinstance(options, dict) and option in options:
+            available[option] = options[option]
+        elif isinstance(options, bool) and not options:
+            available[option] = options
+    return available
+
+
+def _adjust(css):
+    """Apply a CSS adjustment."""
+    wrapped = "<style>" + css + "</style>"
+    st.markdown(wrapped, unsafe_allow_html=True)
 
 
 def get_path(directory):
@@ -77,12 +84,6 @@ def load_env(templates_path):
     """Load the Jinja environment from a given absolute path."""
     loader = FileSystemLoader(templates_path)
     return Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
-
-
-def _adjust(css):
-    """Apply a CSS adjustment."""
-    wrapped = "<style>" + css + "</style>"
-    st.markdown(wrapped, unsafe_allow_html=True)
 
 
 def stylized_container(key):
@@ -126,7 +127,7 @@ def stylized_container(key):
     return container
 
 
-def adjust_css(styles, adjust, key, templates_path):
+def adjust_css(styles, options, key, templates_path):
     """
     Apply CSS adjustments to display the navbar correctly.
 
@@ -224,14 +225,14 @@ def adjust_css(styles, adjust, key, templates_path):
         default="rgb(49, 51, 63)",
     )
 
-    adjust = _prepare_adjust(adjust)
-    margin = adjust["show_menu"] or adjust["show_sidebar"]
+    options = _prepare_options(options)
+    margin = options["show_menu"] or options["show_sidebar"]
     key = f"st_navbar_key_{key}"
 
     env = load_env(templates_path)
     template = env.get_template("options.css")
     css = template.render(
-        adjust=adjust,
+        options=options,
         ui=ui,
         margin=margin,
         key=key,
@@ -251,6 +252,7 @@ def st_navbar(
     logo_page="Home",
     urls=None,
     styles=None,
+    options=True,
     adjust=True,
     key=None,
 ):
@@ -303,17 +305,18 @@ def st_navbar(
         are only styled by ``"hover"`` (if they are set to ``True`` in
         `adjust`). Currently, ``"hover"`` only accepts two CSS properties, they
         are: ``"color"`` and ``"background-color"``.
-    adjust : bool or dict of str: bool or None, default=True
+    options : bool or dict of str: bool, default=True
+        It is possible to customize the navbar with options that can be
+        toggled on or off. To do that, pass a dictionary with the option name
+        as the key and a boolean as the value. The available options are:
+        ``"show_menu"``, ``"show_sidebar"`` and ``"fix_shadow"``. To toggle all
+        options to the same state, pass ``True``, which is the parameter
+        default value, or ``False``, to `options`. Note that in the case of
+        ``"show_sidebar"`` it is still needed to have ``st.sidebar`` in the app
+        to be able to show the sidebar button.
+    adjust : bool, default=True
         It makes a series of CSS adjustments and displays the navbar correctly,
         by overriding some Streamlit behaviors.
-
-        It is possible to customize the adjustments with options that can be
-        toggled on or off. To do that, pass a dictionary with the option as the
-        key and a boolean as the value. The available options are:
-        ``"show_menu"`` and ``"show_sidebar"``. To toggle all options to the
-        same state, pass ``True``, which is the parameter default value, or
-        ``False`` to `adjust`. Note that it is still needed to have
-        ``st.sidebar`` in the app to be able to show the sidebar button.
 
         In most cases, the CSS adjustments do not interfere with the rest of
         the web app, however there could be some situations where this occurs.
@@ -428,6 +431,7 @@ def st_navbar(
     check_logo_page(logo_page)
     check_urls(urls, pages)
     check_styles(styles)
+    check_options(options)
     check_adjust(adjust)
     check_key(key)
 
@@ -455,7 +459,7 @@ def st_navbar(
         key=key,
     )
 
-    if adjust is not None:
-        adjust_css(styles, adjust, key, get_path("templates"))
+    if adjust:
+        adjust_css(styles, options, key, get_path("templates"))
 
     return page

@@ -21,7 +21,7 @@ header[data-testid="stHeader"] {
 }
 
 {# style_menu #}
-{% if not adjust["show_menu"] %}
+{% if not options["show_menu"] %}
 {% block show_menu %}{% endblock %}
 {% endif %}
 div[data-testid="stToolbar"] {
@@ -45,7 +45,7 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
 }
 
 {# style_sidebar #}
-{% if not adjust["show_sidebar"] %}
+{% if not options["show_sidebar"] %}
 {% block show_sidebar %}{% endblock %}
 {% endif %}
 div[data-testid="collapsedControl"] {
@@ -66,7 +66,7 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 }
 
 {# fix_shadow #}
-{% if not adjust["fix_shadow"] %}
+{% if not options["fix_shadow"] %}
 {% block fix_shadow %}{% endblock %}
 {% endif %}
 

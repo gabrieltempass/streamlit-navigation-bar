@@ -191,36 +191,44 @@ def check_styles(styles):
                 )
 
 
-def check_adjust(adjust):
-    """Check if `adjust` has types, keys and values that are valid."""
-    if adjust is None or isinstance(adjust, bool):
+def check_options(options):
+    """Check if `options` has types, keys and values that are valid."""
+    if isinstance(options, bool):
         return
 
-    if not isinstance(adjust, dict):
+    if not isinstance(options, dict):
         raise StreamlitAPIException(
-            _type_error(adjust, "adjust", ["bool", "dict", "None"])
+            _type_error(options, "options", ["bool", "dict"])
         )
 
-    for option, toggle in adjust.items():
+    for option, toggle in options.items():
         if not isinstance(option, str):
             raise StreamlitAPIException(
-                _dict_error(option, "adjust", "key", "bool")
+                _dict_error(option, "options", "key", "bool")
             )
 
-        options = ["show_menu", "show_sidebar"]
-        if option not in options:
+        available = ["show_menu", "show_sidebar", "fix_shadow"]
+        if option not in available:
             raise StreamlitAPIException(
                 "The adjust parameter from st_navbar() received a "
-                "dictionary that has an invalid key. The key must be one of "
-                "the adjustment options.\n"
-                f"\nExpected: 'show_menu', 'show_sidebar'  "
+                "dictionary that has an invalid key. The key must be the name "
+                "of one of the available options.\n"
+                f"\nExpected: 'show_menu', 'show_sidebar', 'fix_shadow'  "
                 f"\nGot: '{option}'"
             )
 
         if not isinstance(toggle, bool):
             raise StreamlitAPIException(
-                _dict_error(toggle, "adjust", "value", "bool")
+                _dict_error(toggle, "options", "value", "bool")
             )
+
+
+def check_adjust(adjust):
+    """Check if `adjust` has a valid type."""
+    if not isinstance(adjust, bool):
+        raise StreamlitAPIException(
+            _type_error(adjust, "adjust", ["bool"])
+        )
 
 
 def check_key(key):

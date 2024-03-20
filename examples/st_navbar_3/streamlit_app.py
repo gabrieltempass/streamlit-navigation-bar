@@ -34,7 +34,7 @@ page = st_navbar(
     logo_path=logo_path,
     urls=urls,
     styles=styles,
-    adjust=False,
+    options=False,
 )
 
 functions = {
