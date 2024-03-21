@@ -80,9 +80,9 @@ def get_path(directory):
     return os.path.join(parent_dir, directory)
 
 
-def load_env(templates_path):
+def load_env(path):
     """Load the Jinja environment from a given absolute path."""
-    loader = FileSystemLoader(templates_path)
+    loader = FileSystemLoader(path)
     return Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
 
@@ -121,13 +121,12 @@ def stylized_container(key):
         <span class='{key}'></span>
         """
     )
-
     container = st.container()
     container.markdown(html, unsafe_allow_html=True)
     return container
 
 
-def adjust_css(styles, options, key, templates_path):
+def adjust_css(styles, options, key, path):
     """
     Apply CSS adjustments to display the navbar correctly.
 
@@ -229,11 +228,11 @@ def adjust_css(styles, options, key, templates_path):
     margin = options["show_menu"] or options["show_sidebar"]
     key = f"st_navbar_key_{key}"
 
-    env = load_env(templates_path)
+    env = load_env(path)
     template = env.get_template("options.css")
     css = template.render(
-        options=options,
         ui=ui,
+        options=options,
         margin=margin,
         key=key,
     )

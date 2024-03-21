@@ -19,18 +19,18 @@ def _type_error(param, name, expected):
     )
 
 
-def _dict_error(param, name, case, v_type_exp):
+def _dict_error(param, name, case, value_expected):
     """Format a string with markdown syntax to describe a dictionary error."""
     if case == "key":
-        type_got = f"{type(param).__name__}: {v_type_exp}"
+        got = f"{type(param).__name__}: {value_expected}"
     elif case == "value":
-        type_got = f"str: {type(param).__name__}"
+        got = f"str: {type(param).__name__}"
 
     return (
         f"The {name} parameter from st_navbar() received a dictionary that "
         f"has a {case} with an invalid type.\n"
-        f"\nExpected: *dict of str: {v_type_exp}*  "
-        f"\nGot: *dict of {type_got}*"
+        f"\nExpected: *dict of str: {value_expected}*  "
+        f"\nGot: *dict of {got}*"
     )
 
 
