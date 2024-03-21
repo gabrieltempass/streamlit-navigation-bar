@@ -196,31 +196,31 @@ def adjust_css(styles, options, key, path):
     ui = MatchNavbar(styles, key)
 
     ui.height = ui.get_value(
-        targets=["nav"],
         css_property="height",
+        targets=["nav"],
         default="2.875rem",
     )
     ui.hover_bg_color = ui.get_value(
-        targets=["hover"],
         css_property="background-color",
+        targets=["hover"],
         default="transparent",
     )
     ui.color = ui.get_value(
-        targets=["span"],
         css_property="color",
-        option="textColor",
+        targets=["span"],
+        theme_config="textColor",
         default="rgb(49, 51, 63)",
     )
     ui.bg_color = ui.get_value(
-        targets=["nav"],
         css_property="background-color",
-        option="secondaryBackgroundColor",
+        targets=["nav"],
+        theme_config="secondaryBackgroundColor",
         default="rgb(240, 242, 246)",
     )
     ui.hover_color = ui.get_value(
-        targets=["hover", "span"],
         css_property="color",
-        option="textColor",
+        targets=["hover", "span"],
+        theme_config="textColor",
         default="rgb(49, 51, 63)",
     )
 

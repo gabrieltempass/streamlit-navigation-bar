@@ -12,113 +12,217 @@ class MatchNavbar():
     }
 
     def __init__(self, styles, key):
+        """
+        styles : dict of str: dict of str: str
+            Apply CSS styles to desired targets, through a dictionary with the
+            HTML tag or pseudo-class name as the key and another dictionary to
+            style it as the value. In the second dictionary, the key-value pair
+            is the name of a CSS property and the value it takes. The keys and
+            values must be strings.
+        """
         self.styles = styles
         self.theme = st_theme(key=f"key_{key}")
 
-    def _get_theme_config(self, style, option, default):
-        configs = self.configs.values()
-        theme = self.theme
-        value = None
-
-        # Return value found in `_get_style()`.
-        if style is not None and style not in configs:
-            return style
-
-        # Search first for the style theme variable value, if there is one.
-        # Then, do the same for the option provided.
-        searches = [option]
-        if style is not None:
-            searches.insert(0, style)
-        for search in searches:
-
-            # Get the CSS value from `theme`.
-            if theme is not None and search in theme:
-                return theme[search]
-
-            # Get the CSS value from configs.
-            if search in configs:
-                value = get_config_options()[f"theme.{search}"].value
-                if value is not None:
-                    return value
-        
-        # Return the default.
-        if value is None:
-            return default
-
-    def _get_style(self, targets, css_property, option=None, default=None):
+    def _get_theme_config(self, theme_configs):
         """
-        Get the value of a CSS property.
+        Get the value of a CSS property from the theme or a config option.
 
-        Search for the right value in order to style seamlessly Streamlit's header
-        and its UI elements, e.g. menu and sidebar buttons, with the navbar. First,
-        it looks for a possible value defined via the `styles` dictionary. If there
-        is not one, search the configuration options. If it still cannot be found,
-        return a default value.
+        Search for the value to style Streamlit's header and UI elements, e.g.
+        menu and sidebar buttons, seamlessly with the navbar.
+
+        It tries to first find it in the styles dictionary, then in the
+        frontend theme object and finally in the configuration options. When it
+        does not find with the first method, it goes to the next one in the
+        sequence. Whenever the value is found it is returned immediately. If at
+        the end it is still not found, returns a default value.
+
+        When the function does not receive a name in `theme_config`, it does
+        not go through the theme and configuration steps in the search
+        sequence.
 
         Parameters
         ----------
-        styles : dict of str: dict of str: str
-            Apply CSS styles to desired targets, through a dictionary with the HTML
-            tag or pseudo-class name as the key and another dictionary to style it
-            as the value. In the second dictionary, the key-value pair is the name
-            of a CSS property and the value it takes. The keys and values must be
-            strings.
-        targets : list of str
-            The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
-            ``"a"``, ``"img"`` and ``"span"``. To better understand the document
-            tree, check the notes section.
-
-            The available pseudo-classes are: ``"active"`` and ``"hover"``, which
-            direct the styling to the ``"span"`` tag. The menu and sidebar buttons
-            are only styled by ``"hover"`` (if they are set to ``True`` in
-            `adjust`). Currently, ``"hover"`` only accepts two CSS properties, they
-            are: ``"color"`` and ``"background-color"``.
-
-            The function searches for the value with the target that is in the
-            first position of the list, if it does not find it, it iterates until
-            the last item. When it finds the value, it returns it, even if there
-            are still more targets in the list.
-        css_property : str
-            The name of the CSS property to get the value of.
-        default : str
-            The default value to be returned, in case the CSS property is not found
-            in the styles dictionary or in the configurations.
-        option : str, optional
-            The name of the configuration option to get its value from. The
-            configuration option could be in a TOML file for example.
+        style : str or None
+            The value of the CSS property, or the name of the theme variable
+            and config option found in `styles`. Or ``None``, if nothing is
+            found in `styles`.
+        theme_config : str, optional
+            The name of the frontend theme variable, and, at the same time,
+            Streamlit's configuration option, to get the value from. The
+            config option could be in a TOML file for example.
+        default : str, optional
+            The default value to be returned, in case the CSS property is not
+            found in `styles`, `theme` or config options.
 
         Returns
         -------
         value : str
-            The value of the CSS property set via the styles dictionary,
-            configuration option or default value.
+            The value of the CSS property found in `styles`, `theme`, config
+            options or a default.
         """
-        # Search for the CSS value in `styles`.
+        theme = self.theme
+        configs = self.configs.values()
+
+        # First, search for the theme variable and config option found in
+        # `styles`. Then, do the same for the `theme_config` provided.
+        for theme_config in theme_configs:
+
+            # Return the CSS value from `theme`.
+            if theme is not None and theme_config in theme:
+                return theme[theme_config]
+
+            # Return the CSS value from configs.
+            if theme_config in configs:
+                value = get_config_options()[f"theme.{theme_config}"].value
+                if value is not None:
+                    return value
+        
+        # Not found.
+        return None
+
+    def _get_style(self, css_property, targets):
+        """
+        Get the value of a CSS property from `styles`.
+
+        Search for the value to style Streamlit's header and UI elements, e.g.
+        menu and sidebar buttons, seamlessly with the navbar.
+
+        It looks up for the CSS property in the styles dictionary, but only for
+        given targets. When there is no `theme_config`, it will either return If a plain value is found, it is returned.
+
+
+
+        If the value
+        is a theme variable and config option, it transforms the name before
+        returning it
+
+        It tries to find with the first target,
+            if it does not find it, it iterates to the next ones.
+
+        It tries to first find it in the styles dictionary, then in the
+        frontend theme object and finally in the configuration options. When it
+        does not find with the first method, it goes to the next one in the
+        sequence. Whenever the value is found it is returned immediately. If at
+        the end it is still not found, returns a default value.
+
+        When the function does not receive a name in `theme_config`, it does
+        not go through the theme and configuration steps in the search
+        sequence.
+
+        Parameters
+        ----------
+        css_property : str
+            The name of the CSS property to get the value from.
+        targets : list of str
+            A list with the targets (from the styles dictionary) where to look
+            up the CSS property value. It tries to find with the first target,
+            if it does not find it, it iterates to the next ones.
+
+            The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``,
+            ``"li"``, ``"a"``, ``"img"`` and ``"span"``. The available
+            pseudo-classes are: ``"active"`` and ``"hover"``.
+        theme_config : str, optional
+            The name of the frontend theme variable, and, at the same time,
+            Streamlit's configuration option, to get the value from. The
+            config option could be in a TOML file for example.
+        default : str, optional
+            The default value to be returned, in case the CSS property is not
+            found in `styles`, and there is no need to search in `theme` or
+            configs.
+
+        Returns
+        -------
+        value : str or None
+            If `theme_config` is ``None``, returns the value of the CSS
+            property found in `styles`, or a default. Else, the value of the
+            CSS property or the name of the theme variable and config option
+            found in `styles`, or ``None``.
+        """
         styles = self.styles
         configs = self.configs
 
-        if styles is not None:
-            for target in targets:
-                if target in styles and css_property in styles[target]:
-                    style = styles[target][css_property]
+        # Search for the CSS value in `styles`.
+        for target in targets:
+            if target in styles and css_property in styles[target]:
+                value = styles[target][css_property]
 
-                    # Return a plain value.
-                    if style not in configs:
-                        return style
+                # Return a plain value.
+                if value not in configs:
+                    return value
 
-                    # Return `var(--theme-variable)` transformed to `themeVariable`.
-                    return configs[style]
+                # Return `var(--theme-variable)` changed to `themeVariable`.
+                return configs[value]
 
-        # No need to search in `theme` or configs.
-        if option is None:
-            return default
-
-        # Will be searched in `theme` and configs later.
+        # Not found.
         return None
 
-    def get_value(self, targets, css_property, option=None, default=None):
-        if option is None:
-            return self._get_style(targets, css_property, default=default)
+    def get_value(self, css_property, targets, theme_config=None, default=None):
+        """
+        Get the value of a CSS property.
 
-        style = self._get_style(targets, css_property)
-        return self._get_theme_config(style, option, default)
+        Search for the value to style Streamlit's header and UI elements, e.g.
+        menu and sidebar buttons, seamlessly with the navbar.
+
+        It tries to first find it in the styles dictionary, then in the
+        frontend theme object and finally in the configuration options. When it
+        does not find with the first method, it goes to the next one in the
+        sequence. Whenever the value is found it is returned immediately. If at
+        the end it is still not found, returns a default value.
+
+        When the function does not receive a name in `theme_config`, it does
+        not go through the theme and configuration steps in the search
+        sequence.
+
+        Parameters
+        ----------
+        css_property : str
+            The name of the CSS property to get the value from.
+        targets : list of str
+            A list with the targets (from the styles dictionary) where to look
+            up the CSS property value. It tries to find with the first target,
+            if it does not find it, it iterates to the next ones.
+
+            The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``,
+            ``"li"``, ``"a"``, ``"img"`` and ``"span"``. The available
+            pseudo-classes are: ``"active"`` and ``"hover"``.
+        theme_config : str, optional
+            The name of the frontend theme variable, and, at the same time,
+            Streamlit's configuration option, to get the value from. The
+            config option could be in a TOML file for example.
+        default : str, optional
+            The default value to be returned, in case the CSS property is not
+            found in `styles`, `theme` or config options.
+
+        Returns
+        -------
+        value : str
+            The value of the CSS property found in `styles`, `theme`, config
+            options or a default.
+        """
+        configs = self.configs.values()
+        value = None
+        theme_configs = []
+
+        if self.styles is not None:
+            value = self._get_style(css_property, targets)
+
+        # Return plain value found in `styles`.
+        if value is not None and value not in configs:
+            return value
+
+        # Not found in `styles` and no need to search in `theme` or configs.
+        if value is None and theme_config is None:
+            return default
+
+        # Theme variable and config option found in `styles`.
+        if value in configs:
+            theme_configs.append(value)
+
+        theme_configs.append(theme_config)
+        value = self._get_theme_config(theme_configs)
+
+        # Not found, return the default.
+        if value is None:
+            return default
+
+        return value
