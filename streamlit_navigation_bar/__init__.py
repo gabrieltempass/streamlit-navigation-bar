@@ -208,20 +208,20 @@ def adjust_css(styles, options, key, path):
     ui.color = ui.get_value(
         css_property="color",
         targets=["span"],
-        theme_config="textColor",
         default="rgb(49, 51, 63)",
+        theme_config="textColor",
     )
     ui.bg_color = ui.get_value(
         css_property="background-color",
         targets=["nav"],
-        theme_config="secondaryBackgroundColor",
         default="rgb(240, 242, 246)",
+        theme_config="secondaryBackgroundColor",
     )
     ui.hover_color = ui.get_value(
         css_property="color",
         targets=["hover", "span"],
-        theme_config="textColor",
         default="rgb(49, 51, 63)",
+        theme_config="textColor",
     )
 
     options = _prepare_options(options)
@@ -236,7 +236,7 @@ def adjust_css(styles, options, key, path):
         margin=margin,
         key=key,
     )
-    with stylized_container(key=key):
+    with stylized_container(key):
         _adjust(css)
 
 

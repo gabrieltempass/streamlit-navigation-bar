@@ -156,7 +156,7 @@ class MatchNavbar():
         # Not found.
         return None
 
-    def get_value(self, css_property, targets, theme_config=None, default=None):
+    def get_value(self, css_property, targets, default, theme_config=None):
         """
         Get the value of a CSS property.
 
