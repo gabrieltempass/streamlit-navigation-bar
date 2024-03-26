@@ -69,7 +69,7 @@ available options are: ``"show_menu"``, ``"show_sidebar"`` and
 It is also possible to toggle all options to the same state. Simply pass
 ``True`` to *options*, which is the parameter default value, or ``False``.
 
-**adjust** : `bool`, `default=True`
+**adjust** : `bool`, `default=True`</br>
 When set to ``True`` (default), it overrides some Streamlit behaviors and makes
 a series of CSS adjustments to display the navbar correctly.
 
@@ -214,7 +214,7 @@ st.write(page)
 [**[App]**](https://st-navbar-1.streamlit.app/) 
 [**[Source]**](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/examples/st_navbar_1/streamlit_app.py)
 
-An example styling the navbar with a design similar to Streamlit's sidebar navigation:
+An example applying a custom style:
 ``` python
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
@@ -223,31 +223,30 @@ st.set_page_config(initial_sidebar_state="collapsed")
 
 pages = ["Home", "Library", "Tutorials", "Development", "Download"]
 styles = {
-	"nav": {
-		"background-color": "rgb(240, 242, 246)",
-	},
-	"div": {
-		"max-width": "31.25rem",
-	},
-	"span": {
-		"color": "var(--text-color)",
-		"border-radius": "0.5rem",
-		"padding": "0.4375rem 0.625rem",
-		"margin": "0 0.125rem",
-	},
-	"active": {
-		"background-color": "rgba(151, 166, 195, 0.15)",
-	},
-	"hover": {
-		"background-color": "rgba(151, 166, 195, 0.25)",
-	},
+    "nav": {
+        "background-color": "#7BD192",
+    },
+    "div": {
+        "max-width": "32rem",
+    },
+    "span": {
+        "border-radius": "0.5rem",
+        "padding": "0.4375rem 0.625rem",
+        "margin": "0 0.125rem",
+    },
+    "active": {
+        "background-color": "rgba(255, 255, 255, 0.25)",
+    },
+    "hover": {
+        "background-color": "rgba(255, 255, 255, 0.35)",
+    },
 }
 
 page = st_navbar(pages, styles=styles)
 st.write(page)
 
 with st.sidebar:
-	st.write("Sidebar")
+    st.write("Sidebar")
 ```
 [![Example 2](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_2.gif)](https://st-navbar-2.streamlit.app/)
 [**[App]**](https://st-navbar-2.streamlit.app/) 
@@ -268,19 +267,23 @@ parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(parent_dir, "cubes.svg")
 urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
 styles = {
-	"nav": {
-		"background-color": "#7c18c4",
-		"justify-content": "left",
-	},
-	"span": {
-		"padding": "14px",
-	},
-	"active": {
-		"background-color": "white",
-		"color": "var(--text-color)",
-		"font-weight": "normal",
-		"padding": "14px",
-	}
+    "nav": {
+        "background-color": "royalblue",
+        "justify-content": "left",
+    },
+    "img": {
+        "padding-right": "14px",
+    },
+    "span": {
+        "color": "white",
+        "padding": "14px",
+    },
+    "active": {
+        "color": "var(--text-color)",
+        "background-color": "white",
+        "font-weight": "normal",
+        "padding": "14px",
+    }
 }
 
 page = st_navbar(
@@ -288,20 +291,20 @@ page = st_navbar(
     logo_path=logo_path,
     urls=urls,
     styles=styles,
-    adjust=False,
+    options=False,
 )
 
 functions = {
-	"Home": pg.show_home,
-	"Install": pg.show_install,
-	"User Guide": pg.show_user_guide,
-	"API": pg.show_api,
-	"Examples": pg.show_examples,
-	"Community": pg.show_community,
+    "Home": pg.show_home,
+    "Install": pg.show_install,
+    "User Guide": pg.show_user_guide,
+    "API": pg.show_api,
+    "Examples": pg.show_examples,
+    "Community": pg.show_community,
 }
 go_to = functions.get(page)
 if go_to:
-	go_to()
+    go_to()
 ```
 [![Example 3](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_3.gif)](https://st-navbar-3.streamlit.app/)
 [**[App]**](https://st-navbar-3.streamlit.app/) 

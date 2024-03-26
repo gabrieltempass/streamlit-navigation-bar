@@ -12,7 +12,7 @@ parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(parent_dir, "logo.svg")
 urls = {"GitHub": "https://github.com"}
 styles = {
-    "nav": {"background-color": "black"},
+    "nav": {"background-color": "var(--primary-color)"},
     "span": {"color": "white"},
 }
 options = {"show_sidebar": False}
