@@ -38,12 +38,12 @@ of the navigation bar. Defaults to ``None``, where no logo is displayed.
 The page value that will be returned when the logo is selected, if there is
 one. Defaults to ``"Home"``. For a non-clickable logo, set this to ``None``.
 
-**urls** : `dict of str: str`, optional</br>
+**urls** : `dict of {str : str}`, optional</br>
 A dictionary with the page name as the key and an external URL as the value,
 both as strings. The page name must be contained in the *pages* list. The URL
 will open in a new window or tab. The default is ``None``.
 
-**styles** : `dict of str: dict of str: str`, optional</br>
+**styles** : `dict of {str : {dict of {str : str}}`, optional</br>
 Apply CSS styles to desired targets, through a dictionary with the HTML tag or
 pseudo-class name as the key and another dictionary to style it as the value.
 In the second dictionary, the key-value pair is the name of a CSS property and
@@ -51,31 +51,35 @@ the value it takes. The keys and values must be strings. Defaults to ``None``,
 where no custom style is applied.
 
 The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``, ``"a"``,
-``"img"`` and ``"span"``. To better understand the document tree, check the
-notes section.
+``"img"`` and ``"span"``. To better understand the Document Object Model, check
+the notes section.
 
 The available pseudo-classes are: ``"active"`` and ``"hover"``, which direct
 the styling to the ``"span"`` tag. The menu and sidebar buttons are only styled
-by ``"hover"`` (if they are set to ``True`` in *adjust*). Currently,
+by ``"hover"`` (if they are set to ``True`` in *options*). Currently,
 ``"hover"`` only accepts two CSS properties, they are: ``"color"`` and
 ``"background-color"``.
 
-**adjust** : `bool` or `dict of str: bool` or `None`, `default=True`</br>
-It makes a series of CSS adjustments and displays the navbar correctly, by
-overriding some Streamlit behaviors.
+**options** : `bool` or `dict of {str : bool}`, `default=True`</br>
+Customize the navbar with options that can be toggled on or off. It accepts a
+dictionary with the option name as the key and a boolean as the value. The
+available options are: ``"show_menu"``, ``"show_sidebar"`` and
+``"fix_shadow"``. Check the notes section for a description of each one.
 
-It is possible to customize the adjustments with options that can be toggled on
-or off. To do that, pass a dictionary with the option as the key and a boolean
-as the value. The available options are: ``"show_menu"`` and
-``"show_sidebar"``. To toggle all options to the same state, pass ``True``,
-which is the parameter default value, or ``False`` to *adjust*. Note that it is
-still needed to have ``st.sidebar`` in the app to be able to show the sidebar
-button.
+It is also possible to toggle all options to the same state. Simply pass
+``True`` to *options*, which is the parameter default value, or ``False``.
+
+**adjust** : `bool`, `default=True`
+When set to ``True`` (default), it overrides some Streamlit behaviors and makes
+a series of CSS adjustments to display the navbar correctly.
 
 In most cases, the CSS adjustments do not interfere with the rest of the web
 app, however there could be some situations where this occurs. If this happens,
-or it is desired to disable all of them, pass ``None`` to *adjust* and, when
+or it is desired to disable all of them, pass ``False`` to *adjust* and, when
 necessary, make your own CSS adjustments with ``st.markdown``.
+
+If set to ``False``, it will also disable all adjustments made by *options*,
+regardless of whether they are on or off.
 
 **key** : `str` or `int`, optional</br>
 A string or integer to use as a unique key for the component. If this is
@@ -90,28 +94,21 @@ the preselected page or ``None``.
 
 ## Notes
 
-### Theme variables
-The component uses by default two CSS variables from the
-[web app's theme](https://docs.streamlit.io/library/advanced-features/theming),
-to style the ``"nav"`` tag. They are:
+### CSS variables
 
-``` css
-nav {
-  font-family: var(--font);
-  background-color: var(--primary-color);
-}
-```
-
-It also accepts the theme variables to be passed in the *styles* dictionary, as
-the values for the CSS properties, for example:
+The component accepts [theme configuration options](https://docs.streamlit.io/library/advanced-features/theming)
+to be passed as [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+in the *styles* dictionary, for example:
 
 ``` python
 styles = {
-    "span": {"color": "var(--text-color)"}
+    "nav": {
+        "background-color": "var(--primary-color)"
+    }
 }
 ```
 
-The theme variables that can be used are:
+The CSS variables that can be used are:
 
 ```
 --primary-color
@@ -121,14 +118,34 @@ The theme variables that can be used are:
 --font
 ```
 
-### Document tree
+By default, the navbar uses in the following targets these CSS variables:
+
+``` python
+styles = {
+    "nav": {
+        "font-family": "var(--font)",
+        "background-color": "var(--secondary-background-color)"
+    },
+    "span": {
+        "color": "var(--text-color)"
+    },
+    "active": {
+        "color": "var(--text-color)"
+    }
+}
+```
+
+They can be overridden by simply passing another value to the respective target
+and CSS property in *styles*.
+
+### Document Object Model
 
 To style the navigation bar, it is important to understand its Document Object
-Model (DOM), also known as document tree. Take a scenario where the navbar was
-created with ``pages=["Hello, World!"]`` and an SVG logo. On the frontend side,
-the component will build this DOM (simplified for readability):
+Model (DOM). For example, if a navbar is created with
+``pages=["Hello, World!"]`` and an SVG logo. On the frontend side, the
+component builds this DOM (simplified for readability):
 
-```html
+``` html
 <nav>
   <div>
     <ul>
@@ -151,17 +168,37 @@ the component will build this DOM (simplified for readability):
 
 Notice that the ``"a"`` tag will style both the logo and the page name.
 However, the ``"img"`` tag is unique to the logo, just as ``"span"`` is to the
-pages names.
+page names.
 
 ### Maximum width
 
 A fundamental CSS property to adjust is the ``"max-width"`` for the ``"div"``
-tag. That is because it controls how much space the page names will have
-between them. The default value is ``"700px"``, which works well in most cases.
-But if the navbar has a large number of pages, or longer names, it might be
-necessary to increase the maximum width. Conversely, whenever the navbar has
-few pages or short names, this value may need to be reduced.
+tag. Because it controls how much space the page names have between them. The
+default value is ``"700px"``, which works well in most cases. But if the navbar
+has a large number of pages, or longer names, it might be necessary to increase
+the maximum width. Conversely, whenever the navbar has few pages or short
+names, this value may need to be reduced.
 
+### Options
+
+The available options and their descriptions are:
+
+`"show_menu"`</br>
+Show Streamlit's menu button in the navbar.
+
+`"show_sidebar"`</br>
+Show Streamlit's sidebar button in the navbar. However, it is still needed to
+use ``st.sidebar`` in the app, in order for the sidebar button to properly
+appear. Just like Streamlit's default behavior.
+
+`"fix_shadow"`</br>
+Fix the shadow of the expanded sidebar, showing it no matter the window width.
+It is useful when the navbar and the sidebar have the same background color,
+which they do by default, because the shadow makes it possible to differentiate
+between the two elements.
+
+When set to ``False``, it assumes Streamlit's default behavior, where it
+applies the shadow only when the window width is below a certain threshold.
 
 ## Examples
 

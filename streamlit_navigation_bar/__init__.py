@@ -42,7 +42,7 @@ def _encode_svg(path):
 
 
 def _prepare_urls(urls, pages):
-    """Fill a dictionary with specified and not specified hrefs and targets."""
+    """Build dict with targets, given hrefs and defaults where omitted."""
     if urls is None:
         urls = {}
     for page in pages:
@@ -54,7 +54,7 @@ def _prepare_urls(urls, pages):
 
 
 def _prepare_options(options):
-    """."""
+    """Build dict with given options, state and defaults where omitted."""
     available = {
         "show_menu": True,
         "show_sidebar": True,
@@ -88,13 +88,15 @@ def load_env(path):
 
 def stylized_container(key):
     """
+    Add a spaceless container to the app.
+
     Insert a container into the app, which receives an iframe that does not
     render anything. Style this container using CSS and a unique key to remove
     the space added by Streamlit.
 
     Parameters
     ----------
-    key : str or int or None
+    key : str, int or None
         A key associated with this container. This needs to be unique since all
         styles will be applied to the container with this key.
 
@@ -131,22 +133,16 @@ def adjust_css(styles, options, key, path):
     Apply CSS adjustments to display the navbar correctly.
 
     By default, Streamlit limits the position of components in the web app to
-    a certain width and adds a padding to the top. This function receives two
-    Jinja templates to adjust the CSS for the navbar to be displayed at the
-    full width and at the top of the window, among other changes.
+    a certain width and adds a padding to the top. This function renders Jinja
+    templates to adjust the CSS and display the navbar at the full width at the
+    top of the window, among other options that can be toggled on or off.
 
-    One template must contain the adjustments that will be made regardless of
-    whether the `adjust` toggle is ``True`` or ``False``, and another must
-    contain the adjustments dependent on their toggle state.
-
-    If there are Streamlit UI elements that are set to be shown, via the
-    `adjust` parameter, the function also reduces the width of the navbar to
-    expose the header, with the UI elements, that is below. Then, it styles the
-    header and the elements to look seamless with the navbar.
+    It also matches the style, theme and configuration between the navbar and 
+    Streamlit's User Interface (UI) elements, to make them look seamless.
 
     Parameters
     ----------
-    styles : dict of str: dict of str: str
+    styles : dict of {str : {dict of {str : str}}
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
@@ -154,44 +150,28 @@ def adjust_css(styles, options, key, path):
         strings.
 
         The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
-        ``"a"``, ``"img"`` and ``"span"``. To better understand the document
-        tree, check the notes section.
+        ``"a"``, ``"img"`` and ``"span"``.
 
         The available pseudo-classes are: ``"active"`` and ``"hover"``, which
         direct the styling to the ``"span"`` tag. The menu and sidebar buttons
         are only styled by ``"hover"`` (if they are set to ``True`` in
-        `adjust`). Currently, ``"hover"`` only accepts two CSS properties, they
+        `options`). Currently, ``"hover"`` only accepts two CSS properties, they
         are: ``"color"`` and ``"background-color"``.
-    adjust : bool or dict of str: bool or None
-        It makes a series of CSS adjustments and displays the navbar correctly,
-        by overriding some Streamlit behaviors.
+    options : bool or dict of {str : bool}
+        Customize the navbar with options that can be toggled on or off. It
+        accepts a dictionary with the option name as the key and a boolean as
+        the value. The available options are: ``"show_menu"``,
+        ``"show_sidebar"`` and ``"fix_shadow"``.
 
-        It is possible to customize the adjustments with options that can be
-        toggled on or off. To do that, pass a dictionary with the option as the
-        key and a boolean as the value. The available options are:
-        ``"show_menu"`` and ``"show_sidebar"``. To toggle all options to the
-        same state, pass ``True`` or ``False`` to `adjust`. Note that it is
-        still needed to have ``st.sidebar`` in the app to be able to show the
-        sidebar button.
-
-        In most cases, the CSS adjustments do not interfere with the rest of
-        the web app, however there could be some situations where this occurs.
-        If this happens, or it is desired to disable all of them, pass ``None``
-        to `adjust` and, when necessary, make your own CSS adjustments with
-        ``st.markdown``.
-    key : str or int or None
-        A key associated with this container. This needs to be unique since all
-        styles will be applied to the container with this key.
-    templates_path : str
+        It is also possible to toggle all options to the same state. Simply
+        pass ``True`` or ``False`` to `options`.
+    key : str, int or None
+        A key associated with the container that adjusts the CSS. This needs to
+        be unique since all styles will be applied to the container with this
+        key.
+    path : str
         The absolute path to the directory containing the Jinja templates with
-        the CSS adjustments. The directory must contain two templates, one
-        named ``"base.css"`` with the adjustments that will be made regardless
-        of whether the `adjust` toggle is ``True`` or ``False``, and another
-        named ``options.css``, that contains the adjustments dependent on their
-        toggle state.
-
-        The ``options.css`` template must have the CSS adjustments for each
-        option inside a Jinja block, named after the respective option.
+        the CSS adjustments.
     """
     ui = MatchNavbar(styles, key)
 
@@ -283,12 +263,12 @@ def st_navbar(
         The page value that will be returned when the logo is selected, if
         there is one. Defaults to ``"Home"``. For a non-clickable logo, set
         this to ``None``.
-    urls : dict of str: str, optional
+    urls : dict of {str : str}, optional
         A dictionary with the page name as the key and an external URL as the
         value, both as strings. The page name must be contained in the `pages`
         list. The URL will open in a new window or tab. The default is
         ``None``.
-    styles : dict of str: dict of str: str, optional
+    styles : dict of {str : {dict of {str : str}}, optional
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
@@ -296,32 +276,36 @@ def st_navbar(
         strings. Defaults to ``None``, where no custom style is applied.
 
         The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
-        ``"a"``, ``"img"`` and ``"span"``. To better understand the document
-        tree, check the notes section.
+        ``"a"``, ``"img"`` and ``"span"``. To better understand the Document
+        Object Model, check the notes section.
 
         The available pseudo-classes are: ``"active"`` and ``"hover"``, which
         direct the styling to the ``"span"`` tag. The menu and sidebar buttons
         are only styled by ``"hover"`` (if they are set to ``True`` in
-        `adjust`). Currently, ``"hover"`` only accepts two CSS properties, they
-        are: ``"color"`` and ``"background-color"``.
-    options : bool or dict of str: bool, default=True
-        It is possible to customize the navbar with options that can be
-        toggled on or off. To do that, pass a dictionary with the option name
-        as the key and a boolean as the value. The available options are:
-        ``"show_menu"``, ``"show_sidebar"`` and ``"fix_shadow"``. To toggle all
-        options to the same state, pass ``True``, which is the parameter
-        default value, or ``False``, to `options`. Note that in the case of
-        ``"show_sidebar"`` it is still needed to have ``st.sidebar`` in the app
-        to be able to show the sidebar button.
+        `options`). Currently, ``"hover"`` only accepts two CSS properties,
+        they are: ``"color"`` and ``"background-color"``.
+    options : bool or dict of {str : bool}, default=True
+        Customize the navbar with options that can be toggled on or off. It
+        accepts a dictionary with the option name as the key and a boolean as
+        the value. The available options are: ``"show_menu"``,
+        ``"show_sidebar"`` and ``"fix_shadow"``. Check the notes section for a
+        description of each one.
+
+        It is also possible to toggle all options to the same state. Simply
+        pass ``True`` to `options`, which is the parameter default value, or
+        ``False``.
     adjust : bool, default=True
-        It makes a series of CSS adjustments and displays the navbar correctly,
-        by overriding some Streamlit behaviors.
+        When set to ``True`` (default), it overrides some Streamlit behaviors
+        and makes a series of CSS adjustments to display the navbar correctly.
 
         In most cases, the CSS adjustments do not interfere with the rest of
         the web app, however there could be some situations where this occurs.
-        If this happens, or it is desired to disable all of them, pass ``None``
-        to `adjust` and, when necessary, make your own CSS adjustments with
-        ``st.markdown``.
+        If this happens, or it is desired to disable all of them, pass
+        ``False`` to `adjust` and, when necessary, make your own CSS
+        adjustments with ``st.markdown``.
+
+        If set to ``False``, it will also disable all adjustments made by
+        `options`, regardless of whether they are on or off.
     key : str or int, optional
         A string or integer to use as a unique key for the component. Multiple
         navbars may not share the same key. Defaults to ``None``.
@@ -334,10 +318,10 @@ def st_navbar(
 
     Notes
     -----
-    **Theme variables**
+    **CSS variables**
 
-    The component accepts theme variables to be passed in the `styles`
-    dictionary, as the values for the CSS properties, for example::
+    The component accepts theme configuration options to be passed as CSS
+    variables in the `styles` dictionary, for example::
     
         styles = {
             "nav": {
@@ -345,7 +329,7 @@ def st_navbar(
             }
         }
     
-    The theme variables that can be used are::
+    The CSS variables that can be used are::
     
         --primary-color
         --background-color
@@ -353,8 +337,7 @@ def st_navbar(
         --text-color
         --font
 
-    By default, it uses the following theme variables to style ``"nav"``,
-    ``"span"`` and ``"active"``::
+    By default, the navbar uses in the following targets these CSS variables::
     
         styles = {
             "nav": {
@@ -369,7 +352,8 @@ def st_navbar(
             }
         }
     
-    They can be overridden by simply passing another value to `styles`.
+    They can be overridden by simply passing another value to the respective
+    target and CSS property in `styles`.
 
     **Document Object Model**
     
@@ -410,6 +394,26 @@ def st_navbar(
     names, it might be necessary to increase the maximum width. Conversely,
     whenever the navbar has few pages or short names, this value may need to
     be reduced.
+
+    **Options**
+
+    The available options and their descriptions are:
+
+    "show_menu"
+        Show Streamlit's menu button in the navbar.
+    "show_sidebar"
+        Show Streamlit's sidebar button in the navbar. However, it is still
+        needed to use ``st.sidebar`` in the app, in order for the sidebar
+        button to properly appear. Just like Streamlit's default behavior.
+    "fix_shadow"
+        Fix the shadow of the expanded sidebar, showing it no matter the window
+        width. It is useful when the navbar and the sidebar have the same
+        background color, which they do by default, because the shadow makes it
+        possible to differentiate between the two elements.
+
+        When set to ``False``, it assumes Streamlit's default behavior, where
+        it applies the shadow only when the window width is below a certain
+        threshold.
 
     Examples
     --------
