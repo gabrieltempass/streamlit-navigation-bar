@@ -313,10 +313,8 @@ if go_to:
 ## Requirements
 
 To use the navigation bar component in your Streamlit app, you will need:
-* **Python 3.8+**
-* **Streamlit 1.30+** (older versions of Streamlit will cause the *adjust*
-parameter from ``st_navbar`` to not work properly when set to ``True`` or
-``False``)
+* **Python >= 3.8**
+* **Streamlit >= 1.31.0 and <= 1.32.1**
 
 ## Roadmap
 
