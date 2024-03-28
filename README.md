@@ -316,7 +316,7 @@ To use the navigation bar component in your Streamlit app, you will need:
 * **Python >= 3.8**
 * **Streamlit >= 1.31.0 and <= 1.32.1**
 * The CSS adjustment depends on the
-  [browser compatibility for the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility).
+  [browser compatibility with the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility).
 
 ## Roadmap
 
