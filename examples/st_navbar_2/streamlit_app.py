@@ -12,6 +12,7 @@ styles = {
         "max-width": "32rem",
     },
     "span": {
+        "color": "rgb(49, 51, 63)",
         "border-radius": "0.5rem",
         "padding": "0.4375rem 0.625rem",
         "margin": "0 0.125rem",
