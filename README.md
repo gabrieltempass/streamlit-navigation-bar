@@ -3,7 +3,7 @@
 A component that allows you to place a navigation bar in your
 Streamlit app.
 
-[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/overview.gif)]((https://st-navbar.streamlit.app/))
+[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/overview.gif)](https://st-navbar.streamlit.app/)
 
 ## Installation
 
