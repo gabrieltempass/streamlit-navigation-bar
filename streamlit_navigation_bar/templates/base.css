@@ -2,6 +2,7 @@
 iframe[title="streamlit_navigation_bar.st_navbar"] {
     position: fixed;
     z-index: 9999;
+    margin-top: -6rem;
     {% if margin %}
     width: calc(100% - 5.125rem);
     margin-left: 2.5625rem;
@@ -12,7 +13,7 @@ iframe[title="streamlit_navigation_bar.st_navbar"] {
     left: 0;
 }
 header[data-testid="stHeader"] {
-    z-index: 9998;
+    z-index: 0;
     height: {{ ui.height }};
     background-color: {{ ui.bg_color }};
 }
@@ -21,8 +22,10 @@ header[data-testid="stHeader"] {
 }
 
 {# style_menu #}
-{% if not options["show_menu"] %}
-{% block show_menu %}{% endblock %}
+{% if options["show_menu"] %}
+{% block make_menu_clickable %}{% endblock %}
+{% else %}
+{% block hide_menu %}{% endblock %}
 {% endif %}
 div[data-testid="stToolbar"] {
     top: calc(({{ ui.height }} - 2rem) / 2);
@@ -46,7 +49,7 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
 
 {# style_sidebar #}
 {% if not options["show_sidebar"] %}
-{% block show_sidebar %}{% endblock %}
+{% block hide_sidebar %}{% endblock %}
 {% endif %}
 div[data-testid="collapsedControl"] {
     top: calc(({{ ui.height }} - 2rem) / 2);
@@ -70,10 +73,7 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 {% block fix_shadow %}{% endblock %}
 {% endif %}
 
-{# adjust_padding #}
-div[data-testid="stAppViewBlockContainer"] {
-    padding-top: 0px;
-}
+{# adjust_body_padding #}
 div[data-testid="stVerticalBlockBorderWrapper"]:has(
     div[data-testid="stVerticalBlock"]
     > div.element-container
@@ -82,5 +82,5 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(
     > p
     > span.{{ key }}
 ) {
-    margin-bottom: 5rem;
+    margin-bottom: -1rem;
 }
