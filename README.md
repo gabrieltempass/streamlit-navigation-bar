@@ -3,7 +3,7 @@
 A component that allows you to place a navigation bar in your
 Streamlit app.
 
-![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/overview.gif)
+[![Overview](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/overview.gif)]((https://st-navbar.streamlit.app/))
 
 ## Installation
 
@@ -214,7 +214,7 @@ st.write(page)
 [**[App]**](https://st-navbar-1.streamlit.app/) 
 [**[Source]**](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/examples/st_navbar_1/streamlit_app.py)
 
-An example applying a custom style:
+An example with a sidebar and applying a custom style:
 ``` python
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
@@ -314,7 +314,7 @@ if go_to:
 
 To use the navigation bar component in your Streamlit app, you will need:
 * **Python >= 3.8**
-* **Streamlit >= 1.31.0 and <= 1.32.1**
+* **Streamlit >= 1.29.0 and <= 1.32.1**
 * The CSS adjustment depends on the
   [browser compatibility with the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility).
 
@@ -323,6 +323,7 @@ To use the navigation bar component in your Streamlit app, you will need:
 The current version of the Streamlit Navigation Bar still has some limitations,
 that are planned to be addressed in future updates. Those are:
 * Be responsive on smaller screens.
+* Add dropdown navigation.
 * Accept ``.png`` and ``.jpg`` image formats for the logo.
 * Style ``:link`` and ``:visited`` pseudo-classes and any CSS property for
 ``:hover``.
@@ -357,7 +358,7 @@ npm run dev
 
 3. From a separate terminal, go to the repository root directory, create a new
 Python virtual environment, activate it and install Streamlit,
-[st-theme](https://github.com/gabrieltempass/streamlit-theme) and the template
+[st-theme](https://github.com/gabrieltempass/streamlit-theme) and the directory
 as an editable package:
 ``` bash
 cd streamlit-navigation-bar
