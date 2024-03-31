@@ -2,6 +2,7 @@
 iframe[title="streamlit_navigation_bar.st_navbar"] {
     position: fixed;
     z-index: 9999;
+    height: {{ ui.height }};
     margin-top: calc(-6rem + -{{ ui.height }});
     {% if margin %}
     width: calc(100% - 5.125rem);
