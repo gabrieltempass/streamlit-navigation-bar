@@ -1,20 +1,5 @@
 {% extends "base.css" %}
 
-{% block make_menu_clickable %}
-div[data-testid="stAppViewContainer"] {
-    pointer-events: none;
-}
-div[data-testid="collapsedControl"] {
-    pointer-events: auto;
-}
-section[data-testid="stSidebar"] {
-    pointer-events: auto;
-}
-div[data-testid="stVerticalBlockBorderWrapper"] {
-    pointer-events: auto;
-}
-{% endblock %}
-
 {% block hide_menu %}
 span[data-testid="stMainMenu"] {
     visibility: hidden;

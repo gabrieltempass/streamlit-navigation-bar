@@ -2,7 +2,7 @@
 iframe[title="streamlit_navigation_bar.st_navbar"] {
     position: fixed;
     z-index: 9999;
-    margin-top: -6rem;
+    margin-top: calc(-6rem + -{{ ui.height }});
     {% if margin %}
     width: calc(100% - 5.125rem);
     margin-left: 2.5625rem;
@@ -47,6 +47,22 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
     background-color: {{ ui.hover_bg_color }};
 }
 
+{# make_menu_clickable #}
+div[data-testid="stAppViewContainer"] {
+    pointer-events: none;
+}
+div[data-testid="collapsedControl"] {
+    pointer-events: auto;
+}
+section[data-testid="stSidebar"] {
+    pointer-events: auto;
+}
+section.main {
+    pointer-events: auto;
+    position: relative;
+    top: {{ ui.height }};
+}
+
 {# style_sidebar #}
 {% if not options["show_sidebar"] %}
 {% block hide_sidebar %}{% endblock %}
@@ -82,5 +98,5 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(
     > p
     > span.{{ key }}
 ) {
-    margin-bottom: -1rem;
+    margin-bottom: calc(-1rem + -{{ ui.height }});
 }
