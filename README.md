@@ -331,64 +331,18 @@ that are planned to be addressed in future updates. Those are:
 * Set light and dark mode styles for the navbar.
 * Apply a format function to the displayed pages.
 
-You are welcome to help develop these features and others. Below is a guide on
-how to quickstart the development.
+## Contributing
 
-## Development
-
-Ensure you have [Python 3.8+](https://www.python.org/downloads/),
-[Node.js](https://nodejs.org) and
-[npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-installed.
-
-1. Clone this repository:
-``` bash
-git clone git@github.com:gabrieltempass/streamlit-navigation-bar.git
-```
-
-2. Go to the `frontend` directory and initialize and run the component template
-frontend:
-``` bash
-cd streamlit-navigation-bar/streamlit_navigation_bar/frontend
-```
-``` bash
-npm install
-npm run dev
-```
-
-3. From a separate terminal, go to the repository root directory, create a new
-Python virtual environment, activate it and install Streamlit,
-[st-theme](https://github.com/gabrieltempass/streamlit-theme) and the directory
-as an editable package:
-``` bash
-cd streamlit-navigation-bar
-```
-``` bash
-python3 -m venv venv
-. venv/bin/activate
-pip install streamlit
-pip install st-theme
-pip install -e .
-```
-
-Still from the same separate terminal, run the example Streamlit app:
-``` bash
-streamlit run streamlit_navigation_bar/example.py
-```
-
-If all goes well, you should see something like this:
-
-![Quickstart success](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/development.png)
-
-Modify the frontend code at
-`streamlit_navigation_bar/frontend/src/StNavbar.vue`.
-Modify the Python code at `streamlit_navigation_bar/__init__.py`.
+You are welcome to help develop the Streamlit Navigation Bar! There are
+multiple ways to contribute, such as [reporting a bug](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml)
+or [requesting a feature](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml).
+You can also just [ask a question](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=question&projects=&template=ask_question.yml),
+if you want. To submit code for a pull request, make sure to read the [guide on how to contribute](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/CONTRIBUTING.md).
 
 ## References
 
 This Streamlit component is based on:
 * The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template)
-repository, that uses Vue 3 to code the frontend and Vite to serve the files
-locally during development, as well as bundle and compile them for production.
+repository, by [@gabrieltempass](https://github.com/gabrieltempass).
 * The [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu/tree/master)
 component, by [@victoryhb](https://github.com/victoryhb).
