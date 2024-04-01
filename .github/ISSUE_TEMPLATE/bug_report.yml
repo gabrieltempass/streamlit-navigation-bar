@@ -1,6 +1,6 @@
 name: Bug report
 description: Create a report to help us improve
-labels: ["type:bug", "status:needs-triage"]
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
@@ -8,7 +8,7 @@ body:
         Thanks for taking the time to report this problem!
         We really appreciate the community's efforts to improve the Streamlit Navigation Bar.
 
-        If you are not sure whether you have found a bug, please consider [opening an issue to ask a question](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?title=What+is+the+question?&body=Describe+it+further+here.) first.
+        If you are not sure whether you have found a bug, please consider [opening an issue to ask a question](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=question&projects=&template=ask_question.yml) first.
   - type: checkboxes
     attributes:
       label: Checklist
