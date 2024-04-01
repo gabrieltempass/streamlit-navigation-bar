@@ -1,3 +1,5 @@
+[![Downloads](https://static.pepy.tech/badge/streamlit-navigation-bar/month)](https://pepy.tech/project/streamlit-navigation-bar)
+
 # Streamlit Navigation Bar
 
 A component that allows you to place a navigation bar in your
