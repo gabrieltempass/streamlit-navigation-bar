@@ -1,0 +1,17 @@
+name: Ask question
+description: Please ask anything you want to know
+labels: ["question"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      description: Please confirm and check the following.
+      options:
+        - label: I have read the [documentation at README.md](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/README.md).
+          required: true
+  - type: textarea
+    attributes:
+      label: Add a description
+      description: Describe further what you wish to know.
+    validations:
+      required: true
