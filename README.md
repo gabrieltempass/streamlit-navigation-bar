@@ -316,20 +316,20 @@ To use the navigation bar component in your Streamlit app, you will need:
 * **Python >= 3.8**
 * **Streamlit >= 1.29.0 and <= 1.32.1**
 * The CSS adjustment depends on the
-  [browser compatibility with the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility).
+  [browser compatibility with the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility)
 
 ## Roadmap
 
 The current version of the Streamlit Navigation Bar still has some limitations,
 that are planned to be addressed in future updates. Those are:
-* Be responsive on smaller screens.
-* Add dropdown navigation.
-* Accept ``.png`` and ``.jpg`` image formats for the logo.
+* Be responsive on smaller screens
+* Add dropdown navigation
+* Accept ``.png`` and ``.jpg`` image formats for the logo
 * Style ``:link`` and ``:visited`` pseudo-classes and any CSS property for
-``:hover``.
-* Select predefined themes to style the navbar.
-* Set light and dark mode styles for the navbar.
-* Apply a format function to the displayed pages.
+``:hover``
+* Select predefined themes to style the navbar
+* Set light and dark mode styles for the navbar
+* Apply a format function to the displayed pages
 
 ## Contributing
 
@@ -343,6 +343,6 @@ if you want. To submit code for a pull request, make sure to read the [guide on 
 
 This Streamlit component is based on:
 * The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template)
-repository, by [@gabrieltempass](https://github.com/gabrieltempass).
+  repository, by [@gabrieltempass](https://github.com/gabrieltempass)
 * The [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu/tree/master)
-component, by [@victoryhb](https://github.com/victoryhb).
+  component, by [@victoryhb](https://github.com/victoryhb)

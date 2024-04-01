@@ -1,12 +1,12 @@
 # Contributing
 
-Thanks for your interest in helping improve Streamlit Navigation Bar! This
-guide is for people who want to contribute code to the project. There are also
-other ways to contribute, such as [reporting a bug](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml)
+Thanks for your interest in helping improve the Streamlit Navigation Bar! This
+guide is for people who want to contribute code to the project. There are other
+ways to contribute, such as [reporting a bug](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml)
 or [requesting a feature](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml).
 You can also just [ask a question](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=question&projects=&template=ask_question.yml),
-if you want. Note that we have a code of conduct, please follow it in all your interactions
-with the project.
+if you want. Note that we have a [code of conduct](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/CODE_OF_CONDUCT.md),
+please follow it in all your interactions with the project.
 
 ## Before starting
 
@@ -15,11 +15,11 @@ to code on it please post in the respective issue saying you want to volunteer,
 and then wait for a positive response. If there is no issue for it yet, create
 it first. This helps make sure:
 
-* Two people aren't working on the same thing.
+* Two people aren't working on the same thing
 * This is something the project's maintainers believe should be implemented or
-fixed.
+  fixed
 * Any API, UI, or deeper architectural changes that need to be implemented have
-been fully thought through by the project's maintainers.
+  been fully thought through by the project's maintainers
 * Your time is well spent!
 
 ## Style guide
