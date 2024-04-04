@@ -28,7 +28,7 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=[
-        "streamlit >= 1.29.0, <= 1.32.1",
+        "streamlit >= 1.29.0, != 1.32.2",  # Navbar doesn't work with 1.32.2
         "st-theme >= 1.2.2",
     ],
 )
