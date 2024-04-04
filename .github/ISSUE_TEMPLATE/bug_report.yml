@@ -28,7 +28,7 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Reproducible Code Example
+      label: Reproducible code example
       render: Python
       description: |
         If applicable, please provide a [self-contained minimal code example](https://stackoverflow.com/help/minimal-reproducible-example) that reproduces the problem you ran into.
@@ -43,7 +43,7 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: Steps To Reproduce
+      label: Steps to reproduce
       description: Please provide the steps we should take to reproduce the bug.
       placeholder: |
         1. Go to '...'
@@ -54,13 +54,13 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: Expected Behavior
+      label: Expected behavior
       description: Explain what you expect to happen when you go through the steps above, assuming there were no bugs.
     validations:
       required: false
   - type: textarea
     attributes:
-      label: Current Behavior
+      label: Current behavior
       placeholder: |
         Error message:
         ```
@@ -103,7 +103,7 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: Additional Information
+      label: Additional information
       description: |
         Links? References? Anything that will give us more context about the issue you are encountering!
         For example, did this bug come from https://discuss.streamlit.io or another site? Link the original source here!

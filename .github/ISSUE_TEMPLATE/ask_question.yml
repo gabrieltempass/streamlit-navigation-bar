@@ -11,7 +11,7 @@ body:
           required: true
   - type: textarea
     attributes:
-      label: Add a description
+      label: Description
       description: Describe further what you wish to know.
     validations:
       required: true

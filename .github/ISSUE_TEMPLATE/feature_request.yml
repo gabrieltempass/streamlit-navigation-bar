@@ -42,7 +42,7 @@ body:
       required: false
   - type: textarea
     attributes:
-      label: Additional Context
+      label: Additional context
       description: |
         Links? References? Anything that will give us more context about the feature request here!
         For example, did this feature request come from https://discuss.streamlit.io or another site? Link the original source here!
