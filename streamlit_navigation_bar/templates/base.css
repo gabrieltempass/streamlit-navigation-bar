@@ -89,15 +89,3 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 {% if not options["fix_shadow"] %}
 {% block fix_shadow %}{% endblock %}
 {% endif %}
-
-{# adjust_body_padding #}
-div[data-testid="stVerticalBlockBorderWrapper"]:has(
-    div[data-testid="stVerticalBlock"]
-    > div.element-container
-    > div.stMarkdown
-    > div[data-testid="stMarkdownContainer"]
-    > p
-    > span.{{ key }}
-) {
-    margin-bottom: calc(-1rem + -{{ ui.height }});
-}

@@ -86,38 +86,49 @@ def load_env(path):
     return Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
 
-def stylized_container(key):
+def stylized_container(key, height):
     """
-    Add a spaceless container to the app.
+    Add a stylized container to the app.
 
-    Insert a container into the app, which receives an iframe that does not
-    render anything. Style this container using CSS and a unique key to remove
-    the space added by Streamlit.
+    Insert a container into the app, that receives an ``st.markdown``, using
+    either the "with" notation or by calling methods directly on the returned
+    object.
+
+    This container has a unique CSS selector, and it is styled to remove 2rem
+    of space. Streamlit adds 1rem of space each time ``st.markdown`` is used.
+    Here, it is used once outside the function and another time inside it.
+
+    It also removes the space added by positioning the HTML element
+    ``section.main`` below the navbar, in the CSS adjustments.
 
     Parameters
     ----------
     key : str, int or None
         A key associated with this container. This needs to be unique since all
         styles will be applied to the container with this key.
+    height : str
+        The height of the navbar. It is the same value that the HTML element
+        ``section.main`` is moved down the page, to counteract its effect.
 
     Returns
     -------
     container : DeltaGenerator
-        A container object. Elements can be added to this container using
-        either the "with" notation or by calling methods directly on the
-        returned object.
+        A container object. ``st.markdown`` can be added to this container
+        using either the ``"with"`` notation or by calling methods directly on
+        the returned object.
     """
     html = (
         f"""
         <style>
-            div[data-testid='stVerticalBlock']:has(
+            div[data-testid="stVerticalBlockBorderWrapper"]:has(
+                div[data-testid="stVerticalBlock"]
                 > div.element-container
                 > div.stMarkdown
                 > div[data-testid='stMarkdownContainer']
                 > p
                 > span.{key}
-            ) > div:first-child {{
-                margin-bottom: -1rem;
+            ) {{
+                margin-bottom: calc(-2rem + -{height});
             }}
         </style>
         <span class='{key}'></span>
@@ -155,8 +166,8 @@ def adjust_css(styles, options, key, path):
         The available pseudo-classes are: ``"active"`` and ``"hover"``, which
         direct the styling to the ``"span"`` tag. The menu and sidebar buttons
         are only styled by ``"hover"`` (if they are set to ``True`` in
-        `options`). Currently, ``"hover"`` only accepts two CSS properties, they
-        are: ``"color"`` and ``"background-color"``.
+        `options`). Currently, ``"hover"`` only accepts two CSS properties,
+        they are: ``"color"`` and ``"background-color"``.
     options : bool or dict of {str : bool}
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
@@ -216,7 +227,7 @@ def adjust_css(styles, options, key, path):
         margin=margin,
         key=key,
     )
-    with stylized_container(key):
+    with stylized_container(key, ui.height):
         _adjust(css)
 
 
