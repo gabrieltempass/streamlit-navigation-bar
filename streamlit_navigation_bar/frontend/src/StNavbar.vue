@@ -142,7 +142,7 @@ nav {
 }
 div {
   width: 100%;
-  max-width: 700px;
+  max-width: 43.75rem;
 }
 ul {
   display: flex;

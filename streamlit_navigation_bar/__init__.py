@@ -400,7 +400,7 @@ def st_navbar(
 
     A fundamental CSS property to adjust is the ``"max-width"`` for the
     ``"div"`` tag. Because it controls how much space the page names have
-    between them. The default value is ``"700px"``, which works well
+    between them. The default value is ``"43.75rem"``, which works well
     in most cases. But if the navbar has a large number of pages, or longer
     names, it might be necessary to increase the maximum width. Conversely,
     whenever the navbar has few pages or short names, this value may need to
