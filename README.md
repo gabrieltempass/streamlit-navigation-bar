@@ -293,13 +293,17 @@ styles = {
         "padding": "14px",
     }
 }
+options = {
+    "show_menu": False,
+    "show_sidebar": False,
+}
 
 page = st_navbar(
     pages,
     logo_path=logo_path,
     urls=urls,
     styles=styles,
-    options=False,
+    options=options,
 )
 
 functions = {
