@@ -118,7 +118,7 @@ def position_body(key, use_padding):
     """
     if use_padding:
         # The position of the body will be 6rem from the top.
-        margin_bottom = "-6rem"
+        margin_bottom = "-5.875rem"
     else:
         # The position of the body will be right below the navbar.
         margin_bottom = "-9rem"
