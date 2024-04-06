@@ -58,7 +58,7 @@ def _prepare_options(options):
     available = {
         "show_menu": True,
         "show_sidebar": True,
-        "fixed_shadow": True,
+        "fix_shadow": True,
     }
     for option in available:
         if isinstance(options, dict) and option in options:

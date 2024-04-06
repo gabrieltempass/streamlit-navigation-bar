@@ -86,6 +86,6 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 }
 
 {# fix_shadow #}
-{% if not options["fix_shadow"] %}
+{% if options["fix_shadow"] %}
 {% block fix_shadow %}{% endblock %}
 {% endif %}
