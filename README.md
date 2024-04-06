@@ -65,8 +65,8 @@ by ``"hover"`` (if they are set to ``True`` in *options*). Currently,
 **options** : `bool` or `dict of {str : bool}`, `default=True`</br>
 Customize the navbar with options that can be toggled on or off. It accepts a
 dictionary with the option name as the key and a boolean as the value. The
-available options are: ``"show_menu"``, ``"show_sidebar"`` and
-``"fix_shadow"``. Check the notes section for a description of each one.
+available options are: ``"show_menu"``, ``"show_sidebar"``, ``"fix_shadow"``
+and ``"use_padding"``. Check the notes section for a description of each one.
 
 It is also possible to toggle all options to the same state. Simply pass
 ``True`` to *options*, which is the parameter default value, or ``False``.
@@ -201,6 +201,12 @@ between the two elements.
 
 When set to ``False``, it assumes Streamlit's default behavior, where it
 applies the shadow only when the window width is below a certain threshold.
+
+`"use_padding"`</br>
+Position the body of the app, in the y axis of the window, 6rem from the top
+(if the navbar has a default height). This is the default style used by
+Streamlit. When set to ``False``, it removes this padding and positions the
+body right below the navbar.
 
 ## Examples
 

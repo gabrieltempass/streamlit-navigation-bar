@@ -59,6 +59,7 @@ def _prepare_options(options):
         "show_menu": True,
         "show_sidebar": True,
         "fix_shadow": True,
+        "use_padding": True,
     }
     for option in available:
         if isinstance(options, dict) and option in options:
@@ -86,29 +87,27 @@ def load_env(path):
     return Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
 
-def stylized_container(key, height):
+def position_body(key, use_padding):
     """
-    Add a stylized container to the app.
+    Add a stylized container to the app that adjusts the position of the body.
 
-    Insert a container into the app, that receives an ``st.markdown``, using
-    either the "with" notation or by calling methods directly on the returned
+    Insert a container into the app, to add an ``st.markdown``, using either
+    the "with" notation or by calling the method directly on the returned
     object.
 
-    This container has a unique CSS selector, and it is styled to remove 2rem
-    of space. Streamlit adds 1rem of space each time ``st.markdown`` is used.
-    Here, it is used once outside the function and another time inside it.
+    This container serves to position the body of the app in the y axis of the
+    window. Which can be the same as the default in Streamlit (6rem from the
+    top), or right below the navbar.
 
-    It also removes the space added by positioning the HTML element
-    ``section.main`` below the navbar, in the CSS adjustments.
+    It does so by having a unique CSS selector, and being inserted in a <div>
+    palced immediately before the <div> of the body of the app. Then, it styles
+    the margin-bottom property and moves the body to the desired position.
 
     Parameters
     ----------
     key : str, int or None
         A key associated with this container. This needs to be unique since all
         styles will be applied to the container with this key.
-    height : str
-        The height of the navbar. It is the same value that the HTML element
-        ``section.main`` is moved down the page, to counteract its effect.
 
     Returns
     -------
@@ -117,6 +116,13 @@ def stylized_container(key, height):
         using either the ``"with"`` notation or by calling methods directly on
         the returned object.
     """
+    if use_padding:
+        # The position of the body will be 6rem from the top.
+        margin_bottom = "-6rem"
+    else:
+        # The position of the body will be right below the navbar.
+        margin_bottom = "-9rem"
+
     html = (
         f"""
         <style>
@@ -128,7 +134,7 @@ def stylized_container(key, height):
                 > p
                 > span.{key}
             ) {{
-                margin-bottom: calc(-2rem + -{height});
+                margin-bottom: {margin_bottom};
             }}
         </style>
         <span class='{key}'></span>
@@ -172,7 +178,7 @@ def adjust_css(styles, options, key, path):
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
         the value. The available options are: ``"show_menu"``,
-        ``"show_sidebar"`` and ``"fix_shadow"``.
+        ``"show_sidebar"``, ``"fix_shadow"`` and ``"use_padding"``.
 
         It is also possible to toggle all options to the same state. Simply
         pass ``True`` or ``False`` to `options`.
@@ -227,7 +233,7 @@ def adjust_css(styles, options, key, path):
         margin=margin,
         key=key,
     )
-    with stylized_container(key, ui.height):
+    with position_body(key, options["use_padding"]):
         _adjust(css)
 
 
@@ -299,8 +305,8 @@ def st_navbar(
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
         the value. The available options are: ``"show_menu"``,
-        ``"show_sidebar"`` and ``"fix_shadow"``. Check the notes section for a
-        description of each one.
+        ``"show_sidebar"``, ``"fix_shadow"`` and ``"use_padding"``. Check the
+        notes section for a description of each one.
 
         It is also possible to toggle all options to the same state. Simply
         pass ``True`` to `options`, which is the parameter default value, or
@@ -425,6 +431,11 @@ def st_navbar(
         When set to ``False``, it assumes Streamlit's default behavior, where
         it applies the shadow only when the window width is below a certain
         threshold.
+    "use_padding"
+        Position the body of the app, in the y axis of the window, 6rem from
+        the top (if the navbar has a default height). This is the default style
+        used by Streamlit. When set to ``False``, it removes this padding and
+        positions the body right below the navbar.
 
     Examples
     --------

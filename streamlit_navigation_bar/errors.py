@@ -207,13 +207,14 @@ def check_options(options):
                 _dict_error(option, "options", "key", "bool")
             )
 
-        available = ["show_menu", "show_sidebar", "fix_shadow"]
+        available = ["show_menu", "show_sidebar", "fix_shadow", "use_padding"]
         if option not in available:
             raise StreamlitAPIException(
                 "The adjust parameter from st_navbar() received a "
                 "dictionary that has an invalid key. The key must be the name "
                 "of one of the available options.\n"
-                f"\nExpected: 'show_menu', 'show_sidebar', 'fix_shadow'  "
+                f"\nExpected: 'show_menu', 'show_sidebar', 'fix_shadow', "
+                "'use_padding'  "
                 f"\nGot: '{option}'"
             )
 
