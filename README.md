@@ -353,8 +353,14 @@ if you want. To submit code for a pull request, make sure to read the [guide on 
 
 ## References
 
-This Streamlit component is based on:
-* The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template)
-  repository, by [@gabrieltempass](https://github.com/gabrieltempass)
+The Streamlit Navigation Bar was made with:
+* The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template),
+  by [@gabrieltempass](https://github.com/gabrieltempass)
+* The [streamlit-theme](https://github.com/gabrieltempass/streamlit-theme)
+  component, by [@gabrieltempass](https://github.com/gabrieltempass)
+
+And based on:
 * The [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu/tree/master)
   component, by [@victoryhb](https://github.com/victoryhb)
+* The [styleable container](https://arnaudmiribel.github.io/streamlit-extras/extras/stylable_container/),
+  by [@LukasMasuch](https://github.com/LukasMasuch)
