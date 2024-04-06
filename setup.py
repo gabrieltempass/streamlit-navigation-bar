@@ -8,7 +8,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="streamlit-navigation-bar",
-    version="3.1.0",
+    version="3.1.1",
     author="Gabriel Tem Pass",
     author_email="redo_hint_0x@icloud.com",
     description="A component that allows you to place a navigation bar in your Streamlit app.",
