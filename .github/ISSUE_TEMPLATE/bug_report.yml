@@ -89,7 +89,7 @@ body:
 
         Example:
           - **Streamlit version**: 1.31.0 _(get it with `$ streamlit version`)_
-          - **Streamlit Navigation Bar version**: 3.0.2
+          - **Streamlit Navigation Bar version**: 3.1.1 _(get it with `$ pip show streamlit-navigation-bar`)_
           - **Python version**: 3.9 _(get it with `$ python --version`)_
           - **Operating System**: macOS 12.6
           - **Browser**: Chrome
