@@ -17,7 +17,7 @@ setup(
         "Source Code": "https://github.com/gabrieltempass/streamlit-navigation-bar",
         "Bug Tracker": "https://github.com/gabrieltempass/streamlit-navigation-bar/issues",
         "Release notes": "https://github.com/gabrieltempass/streamlit-navigation-bar/releases",
-        "Documentation": "https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/README.md",
+        "Documentation": "https://github.com/gabrieltempass/streamlit-navigation-bar/wiki",
         "Community": "https://discuss.streamlit.io/t/new-component-streamlit-navigation-bar/66032",
     },
     author="Gabriel Tem Pass",
