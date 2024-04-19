@@ -9,8 +9,6 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name="streamlit-navigation-bar",
     version="3.1.1",
-    author="Gabriel Tem Pass",
-    author_email="redo_hint_0x@icloud.com",
     description="A component that allows you to place a navigation bar in your Streamlit app.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -22,13 +20,9 @@ setup(
         "Documentation": "https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/README.md",
         "Community": "https://discuss.streamlit.io/t/new-component-streamlit-navigation-bar/66032",
     },
-    packages=[
-        "streamlit_navigation_bar",
-    ],
-    include_package_data=True,
-    package_data={
-        "streamlit_navigation_bar": ["templates/*.css"],
-    },
+    author="Gabriel Tem Pass",
+    author_email="redo_hint_0x@icloud.com",
+    license="MIT License",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -48,6 +42,18 @@ setup(
         "Topic :: Software Development :: Libraries :: Application Frameworks",
         "Topic :: Software Development :: Widget Sets",
     ],
+    packages=[
+        "streamlit_navigation_bar",
+    ],
+    include_package_data=True,
+    package_data={
+        "streamlit_navigation_bar": ["templates/*.css"],
+    },
+    entry_points={
+        "console_scripts": [
+            "streamlit-navigation-bar = streamlit_navigation_bar:print_version",
+        ]
+    },
     python_requires=">=3.8",
     install_requires=[
         "streamlit >= 1.29.0, != 1.32.2",  # Navbar doesn't work with 1.32.2

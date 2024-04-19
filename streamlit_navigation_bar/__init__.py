@@ -1,5 +1,6 @@
 import os
 import base64
+from importlib.metadata import version as _version
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -33,6 +34,12 @@ else:
         "st_navbar",
         path=build_dir,
     )
+
+
+def print_version():
+    """Show the installed version of the Streamlit Navigation Bar package."""
+    version = _version("streamlit-navigation-bar")
+    print(f"Streamlit Navigation Bar, version {version}")
 
 
 def _encode_svg(path):
