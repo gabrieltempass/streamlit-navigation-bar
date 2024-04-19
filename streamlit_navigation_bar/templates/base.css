@@ -14,9 +14,18 @@ iframe[title="streamlit_navigation_bar.st_navbar"] {
     left: 0;
 }
 header[data-testid="stHeader"] {
+    /* In order for the navbar to not "blink" when switching pages */
     z-index: 0;
+
+    /* Match navbar's height, e.g. for when `margin` is `True` */
     height: {{ ui.height }};
+
+    /* Match navbar's background color, e.g. for when `margin` is `True` */
     background-color: {{ ui.bg_color }};
+}
+div[data-testid="stAppViewBlockContainer"] {
+    /* Match Streamlit's default spacing after the body */
+    margin-bottom: calc(5.875rem + {{ ui.height }});
 }
 #stDecoration {
     visibility: hidden;
@@ -29,7 +38,10 @@ header[data-testid="stHeader"] {
 {% block hide_menu %}{% endblock %}
 {% endif %}
 div[data-testid="stToolbar"] {
+    /* Align the button vertically to the navbar pages */
     top: calc(({{ ui.height }} - 2rem) / 2);
+
+    /* Leave space to the left that is equal to the top and bottom */
     right: 0.3125rem;
 }
 div[class="stStatusWidget"] {
@@ -69,7 +81,10 @@ section.main {
 {% block hide_sidebar %}{% endblock %}
 {% endif %}
 div[data-testid="collapsedControl"] {
+    /* Align the button vertically to the navbar pages */
     top: calc(({{ ui.height }} - 2rem) / 2);
+
+    /* Leave space to the right that is equal to the top and bottom */
     left: 0.3125rem;
 }
 div[data-testid="collapsedControl"] path:nth-of-type(2) {
@@ -83,6 +98,12 @@ div[data-testid="collapsedControl"] button[data-testid="baseButton-headerNoPaddi
 }
 div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hover {
     background-color: rgba(151, 166, 195, 0.25);
+}
+
+{# style_chat_input #}
+div[data-testid="stBottom"] {
+    /* Compensate for section.main being repositioned */
+    bottom: {{ ui.height }};
 }
 
 {# fix_shadow #}
