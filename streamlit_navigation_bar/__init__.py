@@ -20,7 +20,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = False
+_RELEASE = True
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
@@ -49,10 +49,11 @@ def _encode_svg(path):
 
 
 def _prepare_urls(urls, pages):
-    """Build dict with targets, given hrefs and defaults where omitted."""
+    """Build dict with given hrefs, targets and defaults where omitted."""
     if urls is None:
         urls = {}
     for page in pages:
+        # Add {page: [href, target]} to the `urls` dict.
         if page in urls:
             urls[page] = [urls[page], "_blank"]
         else:
@@ -78,8 +79,7 @@ def _prepare_options(options):
 
 def _adjust(css):
     """Apply a CSS adjustment."""
-    wrapped = "<style>" + css + "</style>"
-    st.markdown(wrapped, unsafe_allow_html=True)
+    st.html("<style>" + css + "</style>")
 
 
 def get_path(directory):
@@ -98,9 +98,8 @@ def position_body(key, use_padding):
     """
     Add a stylized container to the app that adjusts the position of the body.
 
-    Insert a container into the app, to add an ``st.markdown``, using either
-    the "with" notation or by calling the method directly on the returned
-    object.
+    Insert a container into the app, to add an ``st.html``, using either the
+    "with" notation or by calling the method directly on the returned object.
 
     This container serves to position the body of the app in the y axis of the
     window. Which can be the same as the default in Streamlit (6rem from the
@@ -119,16 +118,16 @@ def position_body(key, use_padding):
     Returns
     -------
     container : DeltaGenerator
-        A container object. ``st.markdown`` can be added to this container
-        using either the ``"with"`` notation or by calling methods directly on
-        the returned object.
+        A container object. ``st.html`` can be added to this container using
+        either the ``"with"`` notation or by calling methods directly on the
+        returned object.
     """
     if use_padding:
         # The position of the body will be 6rem from the top.
-        margin_bottom = "-5.875rem"
+        margin_bottom = "-4.875rem"
     else:
         # The position of the body will be right below the navbar.
-        margin_bottom = "-9rem"
+        margin_bottom = "-8rem"
 
     html = (
         f"""
@@ -136,9 +135,7 @@ def position_body(key, use_padding):
             div[data-testid="stVerticalBlockBorderWrapper"]:has(
                 div[data-testid="stVerticalBlock"]
                 > div.element-container
-                > div.stMarkdown
-                > div[data-testid='stMarkdownContainer']
-                > p
+                > div.stHtml
                 > span.{key}
             ) {{
                 margin-bottom: {margin_bottom};
@@ -148,7 +145,7 @@ def position_body(key, use_padding):
         """
     )
     container = st.container()
-    container.markdown(html, unsafe_allow_html=True)
+    container.html(html)
     return container
 
 
@@ -166,7 +163,7 @@ def adjust_css(styles, options, key, path):
 
     Parameters
     ----------
-    styles : dict of {str : {dict of {str : str}}
+    styles : dict of {str : dict of {str : str}}
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
@@ -244,7 +241,7 @@ def adjust_css(styles, options, key, path):
         _adjust(css)
 
 
-# A placeholder object to implement the default rules for selected
+# A placeholder object to implement the default rules for `selected`.
 sentinel = object()
 
 
@@ -292,7 +289,7 @@ def st_navbar(
         value, both as strings. The page name must be contained in the `pages`
         list. The URL will open in a new window or tab. The default is
         ``None``.
-    styles : dict of {str : {dict of {str : str}}, optional
+    styles : dict of {str : dict of {str : str}}, optional
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
@@ -326,7 +323,7 @@ def st_navbar(
         the web app, however there could be some situations where this occurs.
         If this happens, or it is desired to disable all of them, pass
         ``False`` to `adjust` and, when necessary, make your own CSS
-        adjustments with ``st.markdown``.
+        adjustments with ``st.html``.
 
         If set to ``False``, it will also disable all adjustments made by
         `options`, regardless of whether they are on or off.
@@ -454,8 +451,8 @@ def st_navbar(
     >>> st.write(page)
 
     .. output::
-           https://st-navbar-1.streamlit.app/
-           height: 300px
+       https://st-navbar-1.streamlit.app/
+       height: 300px
     """
     check_pages(pages)
     check_selected(selected, logo_page, logo_path, pages)
