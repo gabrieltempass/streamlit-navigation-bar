@@ -130,19 +130,21 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+/* HTML tags */
 nav {
-  display: flex;
-  justify-content: center;
   align-items: center;
   background-color: var(--secondary-background-color);
+  display: flex;
   font-family: var(--font);
   height: 2.875rem;
+  justify-content: center;
   padding-left: 2rem;
   padding-right: 2rem;
 }
 div {
-  width: 100%;
   max-width: 43.75rem;
+  width: 100%;
 }
 ul {
   display: flex;
@@ -150,8 +152,8 @@ ul {
   width: 100%;
 }
 li {
-  display: flex;
   align-items: center;
+  display: flex;
   list-style: none;
 }
 a {
@@ -162,24 +164,30 @@ img {
   height: 1.875rem;
 }
 span {
-  display: block;
   color: var(--text-color);
+  display: block;
   text-align: center;
 }
+
+/* Special class that acts as an :active pseudo-class for <span> */
 .active {
   color: var(--text-color);
   font-weight: bold;
 }
+
+/* Stop the page names from moving when the active <span> is set to bold */
 span::before {
   content: attr(data-text);
   display: flex;
   font-weight: bold;
   height: 0;
   overflow: hidden;
-  visibility: hidden;
-  user-select: none;
   pointer-events: none;
+  user-select: none;
+  visibility: hidden;
 }
+
+/* Both classes with :hover direct the style to <span> */
 .hover-color:hover {
   color: v-bind(color) !important;
 }

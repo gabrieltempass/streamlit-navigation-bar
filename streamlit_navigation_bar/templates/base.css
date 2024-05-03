@@ -1,9 +1,10 @@
-{# style_navbar #}
+{# style the navbar #}
 iframe[title="streamlit_navigation_bar.st_navbar"] {
+    height: {{ ui.height }};
+    left: 0;
+    margin-top: calc(-6rem + -{{ ui.height }});
     position: fixed;
     z-index: 9999;
-    height: {{ ui.height }};
-    margin-top: calc(-6rem + -{{ ui.height }});
     {% if margin %}
     width: calc(100% - 5.125rem);
     margin-left: 2.5625rem;
@@ -11,10 +12,9 @@ iframe[title="streamlit_navigation_bar.st_navbar"] {
     {% else %}
     width: 100%;
     {% endif %}
-    left: 0;
 }
 header[data-testid="stHeader"] {
-    /* In order for the navbar to not "blink" when switching pages */
+    /* So that the navbar does not briefly disappear when switching pages */
     z-index: 0;
 
     /* Match navbar's height, e.g. for when `margin` is `True` */
@@ -31,7 +31,7 @@ div[data-testid="stAppViewBlockContainer"] {
     visibility: hidden;
 }
 
-{# style_menu #}
+{# style the menu button #}
 {% if options["show_menu"] %}
 {% block make_menu_clickable %}{% endblock %}
 {% else %}
@@ -60,7 +60,7 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
     background-color: {{ ui.hover_bg_color }};
 }
 
-{# make_menu_clickable #}
+{# make the menu button clickable #}
 div[data-testid="stAppViewContainer"] {
     pointer-events: none;
 }
@@ -76,16 +76,16 @@ section.main {
     top: {{ ui.height }};
 }
 
-{# style_sidebar #}
+{# style the sidebar button #}
 {% if not options["show_sidebar"] %}
 {% block hide_sidebar %}{% endblock %}
 {% endif %}
 div[data-testid="collapsedControl"] {
-    /* Align the button vertically to the navbar pages */
-    top: calc(({{ ui.height }} - 2rem) / 2);
-
     /* Leave space to the right that is equal to the top and bottom */
     left: 0.3125rem;
+    
+    /* Align the button vertically to the navbar pages */
+    top: calc(({{ ui.height }} - 2rem) / 2);
 }
 div[data-testid="collapsedControl"] path:nth-of-type(2) {
     fill: {{ ui.color }};
@@ -100,13 +100,13 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
     background-color: rgba(151, 166, 195, 0.25);
 }
 
-{# style_chat_input #}
+{# fix the shadow of the sidebar #}
+{% if options["fix_shadow"] %}
+{% block fix_shadow %}{% endblock %}
+{% endif %}
+
+{# style the chat input #}
 div[data-testid="stBottom"] {
     /* Compensate for section.main being repositioned */
     bottom: {{ ui.height }};
 }
-
-{# fix_shadow #}
-{% if options["fix_shadow"] %}
-{% block fix_shadow %}{% endblock %}
-{% endif %}
