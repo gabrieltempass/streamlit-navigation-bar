@@ -32,9 +32,7 @@ div[data-testid="stAppViewBlockContainer"] {
 }
 
 {# style the menu button #}
-{% if options["show_menu"] %}
-{% block make_menu_clickable %}{% endblock %}
-{% else %}
+{% if not options["show_menu"] %}
 {% block hide_menu %}{% endblock %}
 {% endif %}
 div[data-testid="stToolbar"] {
@@ -99,6 +97,11 @@ div[data-testid="collapsedControl"] button[data-testid="baseButton-headerNoPaddi
 div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hover {
     background-color: rgba(151, 166, 195, 0.25);
 }
+
+{# hide the navigation of the sidebar #}
+{% if options["hide_nav"] %}
+{% block hide_nav %}{% endblock %}
+{% endif %}
 
 {# fix the shadow of the sidebar #}
 {% if options["fix_shadow"] %}

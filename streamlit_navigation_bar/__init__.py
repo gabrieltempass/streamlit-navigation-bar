@@ -66,6 +66,7 @@ def _prepare_options(options):
     available = {
         "show_menu": True,
         "show_sidebar": True,
+        "hide_nav": True,
         "fix_shadow": True,
         "use_padding": True,
     }
@@ -182,7 +183,8 @@ def adjust_css(styles, options, key, path):
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
         the value. The available options are: ``"show_menu"``,
-        ``"show_sidebar"``, ``"fix_shadow"`` and ``"use_padding"``.
+        ``"show_sidebar"``, ``"hide_nav"``, ``"fix_shadow"`` and
+        ``"use_padding"``.
 
         It is also possible to toggle all options to the same state. Simply
         pass ``True`` or ``False`` to `options`.
@@ -309,8 +311,9 @@ def st_navbar(
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
         the value. The available options are: ``"show_menu"``,
-        ``"show_sidebar"``, ``"fix_shadow"`` and ``"use_padding"``. Check the
-        notes section for a description of each one.
+        ``"show_sidebar"``, ``"hide_nav"``, ``"fix_shadow"`` and
+        ``"use_padding"``. Check the API reference in the Notes section for a
+        description of each one.
 
         It is also possible to toggle all options to the same state. Simply
         pass ``True`` to `options`, which is the parameter default value, or

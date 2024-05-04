@@ -12,8 +12,19 @@ div[data-testid="collapsedControl"] {
 }
 {% endblock %}
 
+{% block hide_nav %}
+div[data-testid="stSidebarNav"] {
+    display: none;
+}
+div[data-testid="stSidebarUserContent"] {
+    /* Streamlit's default padding-top when there is no nav is 6rem */
+    padding-top: 6rem;
+}
+{% endblock %}
+
 {% block fix_shadow %}
 section[data-testid="stSidebar"] {
+    /* Streamlit's default sidebar shadow style */
     box-shadow: rgba(0, 0, 0, 0.16) -2rem 0px 2rem 2rem;
 }
 {% endblock %}
