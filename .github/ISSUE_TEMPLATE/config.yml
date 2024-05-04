@@ -1,0 +1,7 @@
+contact_links:
+  - name: Navbar documentation
+    url: https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Usage
+    about: Learn more about how to use the navbar
+  - name: Community forum
+    url: https://discuss.streamlit.io/t/new-component-streamlit-navigation-bar/66032
+    about: Participate in discussions about the component
