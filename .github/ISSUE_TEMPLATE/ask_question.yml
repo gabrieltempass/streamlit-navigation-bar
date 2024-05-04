@@ -1,4 +1,4 @@
-name: Ask question
+name: Ask a question
 description: Please ask anything you want to know
 labels: ["question"]
 body:
@@ -7,7 +7,7 @@ body:
       label: Checklist
       description: Please confirm and check the following.
       options:
-        - label: I have read the documentation at [README.md](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/README.md).
+        - label: I have read the documentation at the [Wiki](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Usage).
           required: true
   - type: textarea
     attributes:
