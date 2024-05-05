@@ -51,6 +51,9 @@ There, you can check:
         * [Default style](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference#default-style)
         * [Maximum width](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference#maximum-width)
     * [Options](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference#options)
+* [Multipage](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Multipage)
+    * [Streamlit's structure](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Multipage#streamlits-structure)
+    * [Recommended structure](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Multipage#recommended-structure)
 * [Examples](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Examples)
 * [Roadmap](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Roadmap)
 
