@@ -59,6 +59,7 @@ There, you can check:
 To use the navigation bar component in your Streamlit app, you will need:
 * **Python >= 3.8**
 * **Streamlit >= 1.33**
+* **[Streamlit Theme](https://github.com/gabrieltempass/streamlit-theme) >= 1.2.3**
 * The CSS adjustment depends on the
   [browser compatibility with the :has pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility)
 
@@ -77,7 +78,7 @@ To submit code for a pull request, make sure to read the
 The Streamlit Navigation Bar was made with:
 * The [streamlit-component-vue-vite-template](https://github.com/gabrieltempass/streamlit-component-vue-vite-template),
   by [@gabrieltempass](https://github.com/gabrieltempass)
-* The [streamlit-theme](https://github.com/gabrieltempass/streamlit-theme)
+* The [st-theme](https://github.com/gabrieltempass/streamlit-theme)
   component, by [@gabrieltempass](https://github.com/gabrieltempass)
 
 And based on:
