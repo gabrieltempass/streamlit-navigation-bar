@@ -20,7 +20,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = True
+_RELEASE = False
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
@@ -168,8 +168,8 @@ def adjust_css(styles, options, key, path):
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
-        of a CSS property and the value it takes. The keys and values must be
-        strings.
+        of a CSS property and the value it takes, both in string format. It
+        accepts CSS variables to be passed as values.
 
         The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
         ``"a"``, ``"img"`` and ``"span"``.
@@ -295,18 +295,22 @@ def st_navbar(
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
         as the value. In the second dictionary, the key-value pair is the name
-        of a CSS property and the value it takes. The keys and values must be
-        strings. Defaults to ``None``, where no custom style is applied.
+        of a CSS property and the value it takes, both in string format. It
+        accepts CSS variables to be passed as values. Defaults to ``None``,
+        where just the default style is applied.
 
         The available HTML tags are: ``"nav"``, ``"div"``, ``"ul"``, ``"li"``,
-        ``"a"``, ``"img"`` and ``"span"``. To better understand the Document
-        Object Model, check the notes section.
+        ``"a"``, ``"img"`` and ``"span"``.
 
         The available pseudo-classes are: ``"active"`` and ``"hover"``, which
         direct the styling to the ``"span"`` tag. The menu and sidebar buttons
         are only styled by ``"hover"`` (if they are set to ``True`` in
         `options`). Currently, ``"hover"`` only accepts two CSS properties,
         they are: ``"color"`` and ``"background-color"``.
+
+        To understand the Document Object Model from the navbar, the CSS
+        variables and the default style, go to the API reference in the Notes
+        section.
     options : bool or dict of {str : bool}, default=True
         Customize the navbar with options that can be toggled on or off. It
         accepts a dictionary with the option name as the key and a boolean as
@@ -331,8 +335,9 @@ def st_navbar(
         If set to ``False``, it will also disable all adjustments made by
         `options`, regardless of whether they are on or off.
     key : str or int, optional
-        A string or integer to use as a unique key for the component. Multiple
-        navbars may not share the same key. Defaults to ``None``.
+        A string or integer to use as a unique key for the component. If this
+        is omitted, a key will be generated for the widget based on its
+        content. Multiple navbars of the same type may not share the same key.
 
     Returns
     -------
@@ -342,108 +347,11 @@ def st_navbar(
 
     Notes
     -----
-    **CSS variables**
+    To learn more about how to use the navbar, check the API reference
+    available at:
 
-    The component accepts theme configuration options to be passed as CSS
-    variables in the `styles` dictionary, for example::
+    https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference
     
-        styles = {
-            "nav": {
-                "background-color": "var(--primary-color)"
-            }
-        }
-    
-    The CSS variables that can be used are::
-    
-        --primary-color
-        --background-color
-        --secondary-background-color
-        --text-color
-        --font
-
-    By default, the navbar uses in the following targets these CSS variables::
-    
-        styles = {
-            "nav": {
-                "font-family": "var(--font)",
-                "background-color": "var(--secondary-background-color)"
-            },
-            "span": {
-                "color": "var(--text-color)"
-            },
-            "active": {
-                "color": "var(--text-color)"
-            }
-        }
-    
-    They can be overridden by simply passing another value to the respective
-    target and CSS property in `styles`.
-
-    **Document Object Model**
-    
-    To style the navigation bar, it is important to understand its Document
-    Object Model (DOM). For example, if a navbar is created with
-    ``pages=["Hello, World!"]`` and an SVG logo. On the frontend side, the
-    component builds this DOM (simplified for readability)::
-
-        <nav>
-          <div>
-            <ul>
-              <li>
-                <a>
-                  <img src="svg_logo" img/>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span>
-                    Hello, World!
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-    Notice that the ``"a"`` tag will style both the logo and the page name.
-    However, the ``"img"`` tag is unique to the logo, just as ``"span"`` is to
-    the page names.
-
-    **Maximum width**
-
-    A fundamental CSS property to adjust is the ``"max-width"`` for the
-    ``"div"`` tag. Because it controls how much space the page names have
-    between them. The default value is ``"43.75rem"``, which works well
-    in most cases. But if the navbar has a large number of pages, or longer
-    names, it might be necessary to increase the maximum width. Conversely,
-    whenever the navbar has few pages or short names, this value may need to
-    be reduced.
-
-    **Options**
-
-    The available options and their descriptions are:
-
-    "show_menu"
-        Show Streamlit's menu button in the navbar.
-    "show_sidebar"
-        Show Streamlit's sidebar button in the navbar. However, it is still
-        needed to use ``st.sidebar`` in the app, in order for the sidebar
-        button to properly appear. Just like Streamlit's default behavior.
-    "fix_shadow"
-        Fix the shadow of the expanded sidebar, showing it no matter the window
-        width. It is useful when the navbar and the sidebar have the same
-        background color, which they do by default, because the shadow makes it
-        possible to differentiate between the two elements.
-
-        When set to ``False``, it assumes Streamlit's default behavior, where
-        it applies the shadow only when the window width is below a certain
-        threshold.
-    "use_padding"
-        Position the body of the app, in the y axis of the window, 6rem from
-        the top (if the navbar has a default height). This is the default style
-        used by Streamlit. When set to ``False``, it removes this padding and
-        positions the body right below the navbar.
-
     Examples
     --------
     >>> import streamlit as st

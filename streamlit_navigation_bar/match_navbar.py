@@ -11,11 +11,12 @@ class MatchNavbar():
     configs : dict of {str : str}
         A dictionary that maps CSS variables to theme variables names, which
         are also config options.
-    styles : dict of {str : {dict of {str : str}}
+    styles : dict of {str : dict of {str : str}}
         A dictionary with the HTML tag or pseudo-class name as the key and
         another dictionary to style it as the value. In the second dictionary,
         the key-value pair is the name of a CSS property and the value it
-        takes. The keys and values must be strings.
+        takes, both in string format. It accepts CSS variables to be passed as
+        values.
     key : str, int or None
         A key associated with the container that gets the theme. This needs to
         be unique since all styles will be applied to the container with this
@@ -41,11 +42,12 @@ class MatchNavbar():
 
         Parameters
         ----------
-        styles : dict of {str : {dict of {str : str}}
+        styles : dict of {str : dict of {str : str}}
             A dictionary with the HTML tag or pseudo-class name as the key and
             another dictionary to style it as the value. In the second
             dictionary, the key-value pair is the name of a CSS property and
-            the value it takes. The keys and values must be strings.
+            the value it takes, both in string format. It accepts CSS variables
+            to be passed as values.
         key : str, int or None
             A key associated with the container that gets the theme. This needs
             to be unique since all styles will be applied to the container with

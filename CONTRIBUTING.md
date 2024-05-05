@@ -5,7 +5,7 @@ guide is for people who want to contribute code to the project. There are other
 ways to contribute, such as [reporting a bug](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml)
 or [requesting a feature](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml).
 You can also just [ask a question](https://github.com/gabrieltempass/streamlit-navigation-bar/issues/new?assignees=&labels=question&projects=&template=ask_question.yml),
-if you want. Note that we have a [code of conduct](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/CODE_OF_CONDUCT.md),
+or join the discussions in the [community forum](https://discuss.streamlit.io/t/new-component-streamlit-navigation-bar/66032). Note that we have a [code of conduct](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/CODE_OF_CONDUCT.md),
 please follow it in all your interactions with the project.
 
 ## Before starting

@@ -7,7 +7,7 @@ body:
       label: Checklist
       description: Please confirm and check the following.
       options:
-        - label: I have read the documentation at the [Wiki](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Usage).
+        - label: I have read the documentation at the [Wiki](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference).
           required: true
   - type: textarea
     attributes:
