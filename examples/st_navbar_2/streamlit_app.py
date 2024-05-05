@@ -13,10 +13,10 @@ styles = {
         "max-width": "32rem",
     },
     "span": {
-        "color": "rgb(49, 51, 63)",
         "border-radius": "0.5rem",
-        "padding": "0.4375rem 0.625rem",
+        "color": "rgb(49, 51, 63)",
         "margin": "0 0.125rem",
+        "padding": "0.4375rem 0.625rem",
     },
     "active": {
         "background-color": "rgba(255, 255, 255, 0.25)",

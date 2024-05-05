@@ -23,8 +23,8 @@ styles = {
         "padding": "14px",
     },
     "active": {
-        "color": "var(--text-color)",
         "background-color": "white",
+        "color": "var(--text-color)",
         "font-weight": "normal",
         "padding": "14px",
     }
