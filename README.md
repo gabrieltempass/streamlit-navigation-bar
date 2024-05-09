@@ -1,4 +1,6 @@
+[![PyPI - Version](https://img.shields.io/pypi/v/streamlit-navigation-bar)](https://pypi.org/project/streamlit-navigation-bar/)
 [![Downloads](https://static.pepy.tech/badge/streamlit-navigation-bar/month)](https://pepy.tech/project/streamlit-navigation-bar)
+[![GitHub License](https://img.shields.io/github/license/gabrieltempass/streamlit-navigation-bar?color=blue)](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/LICENSE)
 
 # Streamlit Navigation Bar
 
