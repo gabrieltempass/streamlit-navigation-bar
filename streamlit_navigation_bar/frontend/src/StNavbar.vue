@@ -52,86 +52,76 @@
   </nav>
 </template>
 
-<script>
-import { ref } from "vue"
+<script setup>
+import { ref, computed, watch } from "vue"
 import { Streamlit } from "streamlit-component-lib"
 import { useStreamlit } from "./streamlit"
 
-export default {
-  name: "StNavbar",
-  // Arguments that are passed to the plugin in Python are accessible in
-  // prop "args"
-  props: ["args"],
+// Arguments that are passed to the plugin in Python are accessible in props
+// "args".
+const props = defineProps(["args"])
+// Fetch changes to the default page, made by a callback function.
+const selected = computed(() => props.args.default)
+const activePage = ref(props.args.default)
 
-  setup(props) {
-    useStreamlit() // Lifecycle hooks for automatic Streamlit resize
+useStreamlit()  // Lifecycle hooks for automatic Streamlit resize.
 
-    const activePage = ref(props.args.default)
+watch(selected, () => {
+    // Executed when `selected` changes.
+    activePage.value = selected.value
+  }
+)
 
-    const onClicked = (page) => {
+const onClicked = (page) => {
       if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
         activePage.value = page
         Streamlit.setComponentValue(page)
       }
     }
 
-    const styles = ref(props.args.styles || {})
+const styles = ref(props.args.styles || {})
 
-    const parseStyles = (dictionary, condition) => {
-      if (typeof condition === "undefined") {
-        condition = true
-      }
-      if (!condition) {
-        return ""
-      }
-      let styleString = ""
-      for (const key in dictionary) {
-        styleString += `${key}:${dictionary[key]};`
-      }
-      return styleString
-    }
+const parseStyles = (dictionary, condition) => {
+  if (typeof condition === "undefined") {
+    condition = true
+  }
+  if (!condition) {
+    return ""
+  }
+  let styleString = ""
+  for (const key in dictionary) {
+    styleString += `${key}:${dictionary[key]};`
+  }
+  return styleString
+}
 
-    let color = ""
-    let bgColor = ""
-    if ("hover" in styles.value) {
-      const stylesHover = styles.value["hover"]
-      if ("color" in stylesHover) {
-        color = stylesHover["color"]
-      }
-      if ("background-color" in stylesHover) {
-        bgColor = stylesHover["background-color"]
-      }
-    }
-    let hoverColor = ""
-    if (!(color === "")) {
-      hoverColor = ref("hover-color")
-    }
-    let hoverBgColor = ""
-    if (!(bgColor === "")) {
-      hoverBgColor = ref("hover-bg-color")
-    }
-
-    return {
-      activePage,
-      onClicked,
-      styles,
-      parseStyles,
-      color,
-      bgColor,
-      hoverColor,
-      hoverBgColor,
-    }
-  },
+let color = ""
+let bgColor = ""
+if ("hover" in styles.value) {
+  const stylesHover = styles.value["hover"]
+  if ("color" in stylesHover) {
+    color = stylesHover["color"]
+  }
+  if ("background-color" in stylesHover) {
+    bgColor = stylesHover["background-color"]
+  }
+}
+let hoverColor = ""
+if (!(color === "")) {
+  hoverColor = ref("hover-color")
+}
+let hoverBgColor = ""
+if (!(bgColor === "")) {
+  hoverBgColor = ref("hover-bg-color")
 }
 </script>
 
 <style scoped>
+/* HTML tags */
 * {
   margin: 0;
   padding: 0;
 }
-
-/* HTML tags */
 nav {
   align-items: center;
   background-color: var(--secondary-background-color);
